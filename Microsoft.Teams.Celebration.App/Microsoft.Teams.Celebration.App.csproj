@@ -259,7 +259,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Manifest\manifest.json" />
-    <None Include="Properties\PublishProfiles\MicrosoftTeamsCelebrationApp20190227041827 - Web Deploy.pubxml" />
     <AdditionalFiles Include="stylecop.json" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />

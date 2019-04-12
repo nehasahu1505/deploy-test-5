@@ -4,9 +4,11 @@
 
 namespace Microsoft.Teams.Celebration.App
 {
+    using System.Threading.Tasks;
     using System.Web.Mvc;
     using Microsoft.Teams.Celebration.App.Helpers;
     using Microsoft.Teams.Celebration.App.Models;
+    using Microsoft.Teams.Celebration.App.Utilities;
 
     /// <summary>
     /// Represents the tab action methods.
@@ -16,14 +18,13 @@ namespace Microsoft.Teams.Celebration.App
         /// <summary>
         /// returns view for events tab.
         /// </summary>
-        /// <param name="tenantId">Tenant Id.</param>
         /// <param name="userObjectId">User Object Id.</param>
         /// <returns>Events View.</returns>
         [Route("Events")]
         [HttpGet]
-        public ActionResult Events(string tenantId, string userObjectId)
+        public async Task<ActionResult> Events(string userObjectId)
         {
-            var events = EventHelper.GetEventsbyOwnerObjectId(userObjectId);
+            var events = await EventHelper.GetEventsbyOwnerObjectId(userObjectId).ToListAsync();
             return this.View(events);
         }
 

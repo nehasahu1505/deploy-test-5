@@ -5,11 +5,9 @@
 namespace Microsoft.Teams.Celebration.App.Helpers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
+    using Microsoft.Azure.Documents.Linq;
     using Microsoft.Teams.Celebration.App.Models;
 
     /// <summary>
@@ -27,29 +25,15 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         }
 
         /// <summary>
-        /// Returns all the events.
-        /// </summary>
-        /// <returns>List of TeamEvent.</returns>
-        public static IEnumerable<Events> GetAllEvents()
-        {
-            return documentClient.CreateDocumentQuery<Events>(documentCollectionUri);
-        }
-
-        /// <summary>
         /// Returns the List of TeamEvents based on user object Id.
         /// </summary>
         /// <param name="aadObjectId">AadUserObjectId.</param>
         /// <returns>List of TeamEvents.</returns>
-        public static IEnumerable<Events> GetEventsbyOwnerObjectId(string aadObjectId)
+        public static IDocumentQuery<Events> GetEventsbyOwnerObjectId(string aadObjectId)
         {
             var option = new FeedOptions { EnableCrossPartitionQuery = true };
             return documentClient.CreateDocumentQuery<Events>(documentCollectionUri, option)
-                .Where(x => x.OwnerAadObjectId == aadObjectId);
-        }
-
-        private static Document GetEventbyEventId(string eventId)
-        {
-            return documentClient.CreateDocumentQuery(documentCollectionUri).AsEnumerable().Where(x => x.Id == eventId).FirstOrDefault();
+                .Where(x => x.OwnerAadObjectId == aadObjectId).AsDocumentQuery();
         }
 
         private static void InitializeDocumentclient()

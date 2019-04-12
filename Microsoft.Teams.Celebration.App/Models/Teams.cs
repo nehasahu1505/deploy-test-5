@@ -7,7 +7,7 @@ namespace Microsoft.Teams.Celebration.App.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Store the metadata that is used to identify the last interaction of bot with team.
+    /// Store the teams metadata.
     /// </summary>
     public class Teams
     {

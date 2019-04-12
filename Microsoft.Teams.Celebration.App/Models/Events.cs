@@ -81,7 +81,7 @@ namespace Microsoft.Teams.Celebration.App.Models
         public int EventDay { get; set; }
 
         /// <summary>
-        /// Gets or sets list of team id's, where the bot is installed.
+        /// Gets or sets list of team information where bot is installed.
         /// </summary>
         [JsonProperty("teams")]
         public List<Teams> Teams { get; set; }

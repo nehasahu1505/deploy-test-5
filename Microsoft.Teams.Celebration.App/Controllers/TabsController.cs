@@ -5,6 +5,8 @@
 namespace Microsoft.Teams.Celebration.App
 {
     using System.Web.Mvc;
+    using Microsoft.Teams.Celebration.App.Helpers;
+    using Microsoft.Teams.Celebration.App.Models;
 
     /// <summary>
     /// Represents the tab action methods.
@@ -12,21 +14,37 @@ namespace Microsoft.Teams.Celebration.App
     public class TabsController : Controller
     {
         /// <summary>
-        /// returns view for configuration tab.
+        /// returns view for events tab.
         /// </summary>
-        /// <returns>Configuration tab view.</returns>
+        /// <param name="tenantId">Tenant Id.</param>
+        /// <param name="userObjectId">User Object Id.</param>
+        /// <returns>Events View.</returns>
+        [Route("Events")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Events(string tenantId, string userObjectId)
         {
-            return this.View();
+            var events = EventHelper.GetEventsbyOwnerObjectId(userObjectId);
+            return this.View(events);
         }
 
         /// <summary>
-        /// returns view for events tab.
+        /// Manage Events view.
         /// </summary>
-        /// <returns>Events tab view.</returns>
+        /// <returns>Manage event task module view.</returns>
+        [Route("MangeEvents")]
         [HttpGet]
-        public ActionResult Events()
+        public ActionResult ManageEvents()
+        {
+          return this.View();
+        }
+
+        /// <summary>
+        /// Save user event.
+        /// </summary>
+        /// <param name="events">Events object.</param>
+        /// <returns>Events View.</returns>
+        [Route("SaveEvent")]
+        public ActionResult SaveEvent(Events events)
         {
             return this.View();
         }

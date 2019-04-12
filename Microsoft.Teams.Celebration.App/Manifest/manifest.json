@@ -33,13 +33,6 @@
       ]
     }
   ],
-  "configurableTabs": [
-    {
-      "configurationUrl": "https://{{domain}}/Tabs/Index",
-      "canUpdateConfiguration": false,
-      "scopes": [ "team" ]
-    }
-  ],
   "bots": [
     {
       "botId": "{{MicrosoftAppId}}",

@@ -11,7 +11,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
     using Microsoft.Teams.Celebration.App.Models;
 
     /// <summary>
-    /// Helper class for TeamEvents.
+    /// Helper class for Events.
     /// </summary>
     public static class EventHelper
     {
@@ -25,7 +25,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         }
 
         /// <summary>
-        /// Returns the List of TeamEvents based on user object Id.
+        /// Returns DocumentQuery for Events.
         /// </summary>
         /// <param name="aadObjectId">AadUserObjectId.</param>
         /// <returns>List of TeamEvents.</returns>

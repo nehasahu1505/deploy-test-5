@@ -259,8 +259,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Helpers\ApplicationSettings.cs" />
     <Compile Include="Helpers\EventHelper.cs" />
-    <Compile Include="Models\Events.cs" />
-    <Compile Include="Models\Teams.cs" />
+    <Compile Include="Models\CelebrationEvent.cs" />
+    <Compile Include="Models\Enums\EventTypes.cs" />
+    <Compile Include="Models\Team.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -275,7 +276,6 @@
     <Compile Include="Utilities\Extensions\DocumentQueryExtensions.cs" />
     <Compile Include="Utilities\Constants\ConfigurationKeys.cs" />
     <Compile Include="Utilities\Constants\Constant.cs" />
-    <Compile Include="Utilities\Enums\EventTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

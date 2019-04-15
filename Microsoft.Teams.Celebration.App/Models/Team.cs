@@ -1,4 +1,4 @@
-﻿// <copyright file="Teams.cs" company="Microsoft">
+﻿// <copyright file="Team.cs" company="Microsoft">
 // Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace Microsoft.Teams.Celebration.App.Models
     /// <summary>
     /// Store the teams metadata.
     /// </summary>
-    public class Teams
+    public class Team
     {
         /// <summary>
         /// Gets or sets team's Id.

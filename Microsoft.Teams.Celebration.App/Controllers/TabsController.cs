@@ -32,7 +32,7 @@ namespace Microsoft.Teams.Celebration.App
         /// Manage Events view.
         /// </summary>
         /// <returns>Manage event task module view.</returns>
-        [Route("MangeEvents")]
+        [Route("ManageEvents")]
         [HttpGet]
         public ActionResult ManageEvents()
         {
@@ -45,7 +45,7 @@ namespace Microsoft.Teams.Celebration.App
         /// <param name="events">Events object.</param>
         /// <returns>Events View.</returns>
         [Route("SaveEvent")]
-        public ActionResult SaveEvent(Events events)
+        public ActionResult SaveEvent(CelebrationEvent events)
         {
             return this.View();
         }

@@ -1,4 +1,8 @@
-﻿body {
+﻿html {
+    font-size: 62.5% /* =10px */
+}
+
+body {
     font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     background-color: transparent;
 }
@@ -7,97 +11,97 @@
 .button-primary {
     background-color: #6264a7;
     color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
     border-color: #6264a7;
-    box-shadow: #CACADC 0px 3px 0px 0px;
-    width: 112px;
-    height: 32px;
+    box-shadow: #CACADC 0 .3rem 0 0;
+    width: 11.2rem;
+    height: 3.2rem;
     cursor: pointer;
-}
-.margin-top-32px{
-    margin-top:32px;
 }
 /*Common classes Ends here*/
 
 /*empty event state starts here*/
 .empty-state-div {
-    margin-top: 20px;
+    margin-top: 2rem;
     text-align: center;
 }
 .empty-event-image {
-    height: 305px;
-    width: 325px;
+    height: 30.5rem;
+    width: 32.5rem;
 }
 .empty-event-header {
     color: #252424;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: bold;
-    margin-top: 5px;
+    margin-top: .5rem;
 }
 .empty-event-regular-text {
     color: #252424;
     opacity: 0.5;
-    font-size: 14px;
+    font-size: 1.4rem;
+}
+.new-event-button {
+    margin-top: 3.2rem;
 }
 /*empty event state Ends here*/
 
 /*Events view starts here*/
 .event-tile {
-    height: 264px;
-    width: 355px;
+    height: 26.4rem;
+    width: 35.5rem;
     display: inline-block;
-    padding: 8px 4px;
-    margin: 4px 8px;
+    padding: .8rem .4rem;
+    margin: .4rem .8rem;
     background-color: white;
     color: #252424;
     font-weight: normal;
 }
 .event-tile-title{
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: bold;
-    margin-top: 16px;
-    height: 24px;
+    margin-top: 1.6rem;
+    height: 2.4rem;
     display: inline;
-    padding-left: 16px;
+    padding-left: 1.6rem;
 }
 .event-tile-dropdown {
     display: inline;
     float: right
 }
-    .event-tile-dropdown > button {
+.event-tile-dropdown > button {
         background: none;
         border: none
-    }
+ }
 .event-tile-date {
-    height: 20px;
-    padding-left: 16px;
-    font-size: 14px;
+    height: 2rem;
+    padding-left: 1.6rem;
+    font-size: 1.4rem;
  }
 .event-tile-message-header {
-    font-size: 12px;
+    font-size: 1.2rem;
     opacity: 0.75;
-    height: 16px;
-    padding-left: 16px;
-    margin-top: 20px
+    height: 1.6rem;
+    padding-left: 1.6rem;
+    margin-top: 2rem
 }
 .event-tile-message{
-    font-size: 14px;
-    height: 20px;
-    padding-left: 16px;
+    font-size: 1.4rem;
+    height: 2rem;
+    padding-left: 1.6rem;
 }
 .event-tile-celebration-image-div{
-    margin-top:21px;
+    margin-top:2.1rem;
 }
 .event-tile-celebration-image-div > img {
-    Width: 347px;
-    Height: 128px;
+    Width: 34.7rem;
+    Height: 12.8rem;
 }
 .ghost-event-tile-opacity, .ghost-event-tile-opacity div {
     opacity: 0.75;
 }
 .new-event-div {
-    padding-top: 32px;
-    padding-left: 8px;
+    padding-top: 3.2rem;
+    padding-left: .8rem;
 }
 /*Events view Ends here*/

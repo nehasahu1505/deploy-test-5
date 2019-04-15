@@ -1,4 +1,4 @@
-﻿// <copyright file="Events.cs" company="Microsoft">
+﻿// <copyright file="CelebrationEvent.cs" company="Microsoft">
 // Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace Microsoft.Teams.Celebration.App.Models
     /// <summary>
     /// Represent event data.
     /// </summary>
-    public class Events
+    public class CelebrationEvent
     {
         /// <summary>
         /// Gets or sets event id that uniquely idetifies the event.
@@ -45,7 +45,7 @@ namespace Microsoft.Teams.Celebration.App.Models
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets timezone id.
+        /// Gets or sets timezone id given by TimeZoneInfo.Id .
         /// </summary>
         [JsonProperty("timeZoneId")]
         public string TimeZoneId { get; set; }
@@ -69,13 +69,13 @@ namespace Microsoft.Teams.Celebration.App.Models
         public string ImageURL { get; set; }
 
         /// <summary>
-        /// Gets or sets month of event.
+        /// Gets or sets month part of the event date.
         /// </summary>
         [JsonProperty("eventMonth")]
         public int EventMonth { get; set; }
 
         /// <summary>
-        /// Gets or sets day of event.
+        /// Gets or sets day part of the event date.
         /// </summary>
         [JsonProperty("eventDay")]
         public int EventDay { get; set; }
@@ -84,6 +84,6 @@ namespace Microsoft.Teams.Celebration.App.Models
         /// Gets or sets list of team information where bot is installed.
         /// </summary>
         [JsonProperty("teams")]
-        public List<Teams> Teams { get; set; }
+        public List<Team> Teams { get; set; }
     }
 }

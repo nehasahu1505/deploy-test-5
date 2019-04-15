@@ -20,8 +20,8 @@ namespace Microsoft.Teams.Celebration.App.Helpers
 
         static EventHelper()
         {
-            InitializeDocumentclient();
-            InitializeDocumentClientUri();
+            InitializeDocumentClient();
+            InitializeDocumentCollectionUri();
         }
 
         /// <summary>
@@ -29,21 +29,21 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// </summary>
         /// <param name="aadObjectId">AadUserObjectId.</param>
         /// <returns>List of TeamEvents.</returns>
-        public static IDocumentQuery<Events> GetEventsbyOwnerObjectId(string aadObjectId)
+        public static IDocumentQuery<CelebrationEvent> GetEventsbyOwnerObjectId(string aadObjectId)
         {
             var option = new FeedOptions { EnableCrossPartitionQuery = true };
-            return documentClient.CreateDocumentQuery<Events>(documentCollectionUri, option)
+            return documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option)
                 .Where(x => x.OwnerAadObjectId == aadObjectId).AsDocumentQuery();
         }
 
-        private static void InitializeDocumentclient()
+        private static void InitializeDocumentClient()
         {
             var uri = new Uri(ApplicationSettings.DocumentDbUrl);
             var key = ApplicationSettings.DocumentDbKey;
             documentClient = new DocumentClient(uri, key);
         }
 
-        private static void InitializeDocumentClientUri()
+        private static void InitializeDocumentCollectionUri()
         {
             documentCollectionUri = UriFactory.CreateDocumentCollectionUri(Constant.CelebrationBotDb, Constant.CelebrationBotEventCollection);
         }

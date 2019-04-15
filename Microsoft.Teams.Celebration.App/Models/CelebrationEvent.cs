@@ -6,7 +6,7 @@ namespace Microsoft.Teams.Celebration.App.Models
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Teams.Celebration.App.Utilities.Enums;
+    using Microsoft.Teams.Celebration.App.Models.Enums;
     using Newtonsoft.Json;
 
     /// <summary>

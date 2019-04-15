@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 
-namespace Microsoft.Teams.Celebration.App.Utilities.Enums
+namespace Microsoft.Teams.Celebration.App.Models.Enums
 {
     /// <summary>
     /// Store type of events.

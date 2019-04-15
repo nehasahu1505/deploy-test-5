@@ -5,13 +5,20 @@
 namespace Microsoft.Teams.Celebration.App
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Web;
     using System.Web.Http;
     using Microsoft.Bot.Connector;
+    using Microsoft.Bot.Connector.Teams;
+    using Microsoft.Bot.Connector.Teams.Models;
+    using Microsoft.Teams.Apps.Common.Extensions;
+    using Microsoft.Teams.Apps.Common.Logging;
+    using Microsoft.Teams.Apps.Common.Telemetry;
     using Microsoft.Teams.Celebration.App.Resources;
 
     /// <summary>
@@ -20,7 +27,17 @@ namespace Microsoft.Teams.Celebration.App
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private readonly ILogProvider logProvider;
         private IConnectorClient connectorClient;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessagesController"/> class.
+        /// </summary>
+        /// <param name="logProvider">The instance of <see cref="ILogProvider"/></param>
+        public MessagesController(ILogProvider logProvider)
+        {
+            this.logProvider = logProvider;
+        }
 
         /// <summary>
         /// Recieves message from user and reply to it.
@@ -30,6 +47,9 @@ namespace Microsoft.Teams.Celebration.App
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity, CancellationToken cancellationToken)
         {
+            UserTelemetryInitializer.SetTelemetryUserId(HttpContext.Current, activity.From.Id);
+            this.LogUserActivity(activity);
+
             if (activity.Type == ActivityTypes.Message)
             {
             }
@@ -100,6 +120,37 @@ namespace Microsoft.Teams.Celebration.App
                 {
                 }
             }
+        }
+
+        // Log information about the received user activity
+        private void LogUserActivity(Activity activity)
+        {
+            // Log the user activity
+            var channelData = activity.GetChannelData<TeamsChannelData>();
+            var fromTeamsAccount = activity.From.AsTeamsChannelAccount();
+            var fromObjectId = fromTeamsAccount.ObjectId ?? activity.From.Properties["aadObjectId"]?.ToString();
+            var clientInfoEntity = activity.Entities.Where(e => e.Type == "clientInfo").FirstOrDefault();
+
+            var properties = new Dictionary<TelemetryProperty, string>
+            {
+                { TelemetryProperty.ActivityType, activity.Type },
+                { TelemetryProperty.ActivityId, activity.Id },
+                { TelemetryProperty.UserId, activity.From.Id },
+                { TelemetryProperty.UserAadObjectId, fromObjectId },
+                { TelemetryProperty.ConversationId, activity.Conversation.Id },
+                {
+                    TelemetryProperty.ConversationType, string.IsNullOrWhiteSpace(activity.Conversation.ConversationType)
+                    ? "personal" : activity.Conversation.ConversationType
+                },
+                { TelemetryProperty.Locale, clientInfoEntity?.Properties["locale"]?.ToString() },
+                { TelemetryProperty.Platform, clientInfoEntity?.Properties["platform"]?.ToString() },
+            };
+            if (!string.IsNullOrEmpty(channelData?.EventType))
+            {
+                properties[TelemetryProperty.TeamsEventType] = channelData.EventType;
+            }
+
+            this.logProvider.LogEvent(TelemetryEvent.UserActivity, properties);
         }
     }
 }

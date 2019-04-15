@@ -1,10 +1,20 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿// <copyright file="BundleConfig.cs" company="Microsoft">
+// Copyright (c) Microsoft. All rights reserved.
+// </copyright>
 
 namespace Microsoft.Teams.Celebration.App
 {
+    using System.Web.Optimization;
+
+    /// <summary>
+    /// Configures bundles
+    /// </summary>
     public class BundleConfig
     {
+        /// <summary>
+        /// Configures bundles.
+        /// </summary>
+        /// <param name="bundles">Bundle collection to configure</param>
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {

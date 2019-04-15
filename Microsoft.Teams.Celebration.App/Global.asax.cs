@@ -4,15 +4,16 @@
 
 namespace Microsoft.Teams.Celebration.App
 {
-    using System;
+    using System.Reflection;
     using System.Web.Http;
     using System.Web.Routing;
     using Autofac;
+    using Autofac.Integration.WebApi;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Dialogs.Internals;
-    using Microsoft.Bot.Connector;
-    using Microsoft.Teams.Celebration.App.Helpers;
+    using Microsoft.Teams.Apps.Common;
+    using Microsoft.Teams.Apps.Common.Configuration;
 
     /// <summary>
     /// Define the events and data accessed globally in application.
@@ -24,24 +25,21 @@ namespace Microsoft.Teams.Celebration.App
         /// </summary>
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            var store = new DocumentDbBotDataStore(new Uri(ApplicationSettings.DocumentDbUrl), ApplicationSettings.DocumentDbKey);
+            // Set Application Insights instrumentation key
+            var configProvider = new LocalConfigProvider();
+            TelemetryConfiguration.Active.InstrumentationKey = configProvider.GetSetting(CommonConfig.ApplicationInsightsInstrumentationKey);
 
             Conversation.UpdateContainer(
-                        builder =>
-                        {
-                           builder.Register(c => store)
-                                .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-                                .AsSelf()
-                                .SingleInstance();
+               builder =>
+               {
+                   builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
+                   builder.RegisterModule(new CelebrationsAppModule());
 
-                           builder.Register(c => new CachingBotDataStore(store, CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
-                                .As<IBotDataStore<BotData>>()
-                                .AsSelf()
-                                .InstancePerLifetimeScope();
-                        });
+                   builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+                   builder.RegisterWebApiFilterProvider(GlobalConfiguration.Configuration);
+               });
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
 }

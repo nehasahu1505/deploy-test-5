@@ -25,19 +25,12 @@
   "accentColor": "#3F487F",
   "staticTabs": [
     {
-      "contentUrl": "https://{{domain}}/Tabs/Events",
+      "contentUrl": "https://{{domain}}/Tabs/Events?userObjectId={userObjectId}",
       "entityId": "EventsTab",
       "name": "Events",
       "scopes": [
         "personal"
       ]
-    }
-  ],
-  "configurableTabs": [
-    {
-      "configurationUrl": "https://{{domain}}/Tabs/Index",
-      "canUpdateConfiguration": false,
-      "scopes": [ "team" ]
     }
   ],
   "bots": [

@@ -4,8 +4,11 @@
 
 namespace Microsoft.Teams.Celebration.App
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
+    using Microsoft.Bot.Connector.Teams.Models;
     using Microsoft.Teams.Celebration.App.Helpers;
     using Microsoft.Teams.Celebration.App.Models;
     using Microsoft.Teams.Celebration.App.Utilities;
@@ -31,12 +34,20 @@ namespace Microsoft.Teams.Celebration.App
         /// <summary>
         /// Manage Events view.
         /// </summary>
+        /// <param name="userObjectId">User Object Id.</param>
+        /// <param name="eventId">eventId.</param>
         /// <returns>Manage event task module view.</returns>
         [Route("ManageEvents")]
         [HttpGet]
-        public ActionResult ManageEvents()
+        public async Task<ActionResult> ManageEvents(string userObjectId, string eventId)
         {
-          return this.View();
+            ManageEventModel manageEventModel = new ManageEventModel()
+            {
+                TeamDetails = new List<TeamDetails>(),
+                CelebrationEvent = await EventHelper.GetTeamEventByEventId(eventId),
+                TimeZonelist = Common.GetTimeZoneList(),
+            };
+            return this.View(manageEventModel);
         }
 
         /// <summary>

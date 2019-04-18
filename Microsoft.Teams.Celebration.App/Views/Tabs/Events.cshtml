@@ -95,7 +95,7 @@
                             Create new event to add message
                         </div>
                         <div class="event-tile-celebration-image-div">
-                            <img src="../../Content/Images/Celebrations-bot_image-12_new_event.png" alt="" />
+                            <img src="../../Content/Images/Celebrations-bot-image-new-event.png" alt="" />
                         </div>
                     </div>
                 }
@@ -103,7 +103,7 @@
             if (events.Count < 5)
             {
                 <div class="new-event-div">
-                    <button class="button-primary" onclick="openManageEventsTaskModule();">New Event</button>
+                    <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
                 </div>
             }
             else
@@ -137,8 +137,8 @@
         function openManageEventsTaskModule() {
             let taskInfo = {
                 title: "Manage Events",
-                height: "1018px",
-                width: "514px",
+                height: "800px", // 770px
+                width: "600px",
                 url: null,
                 card: null,
                 fallbackUrl: null,

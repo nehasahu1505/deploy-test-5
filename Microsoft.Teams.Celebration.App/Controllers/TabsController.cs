@@ -60,7 +60,7 @@ namespace Microsoft.Teams.Celebration.App
         public async Task<ActionResult> SaveEvent(CelebrationEvent celebrationEvent)
         {
             await EventHelper.CreateNewEventAsync(celebrationEvent);
-            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId);
+            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId).ToListAsync();
             return this.View(events);
         }
 
@@ -74,8 +74,22 @@ namespace Microsoft.Teams.Celebration.App
         public async Task<ActionResult> UpdateEvent(CelebrationEvent celebrationEvent)
         {
             await EventHelper.UpdateEventAsync(celebrationEvent);
-            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId);
+            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId).ToListAsync();
             return this.View(events);
+        }
+
+        /// <summary>
+        /// Delete event.
+        /// </summary>
+        /// <param name="eventId">event Id.</param>
+        /// <param name="userObjectId">User Object Id.</param>
+        /// <param name="eventType">Event Type.</param>
+        /// <returns>Task.</returns>
+        public async Task<ActionResult> DeleteEvent(string eventId, string userObjectId, string eventType)
+        {
+            await EventHelper.DeleteEvent(eventId, eventType);
+            var events = EventHelper.GetEventsbyOwnerObjectId(userObjectId).ToListAsync();
+            return this.View("Events", events);
         }
     }
 }

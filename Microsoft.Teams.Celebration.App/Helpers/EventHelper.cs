@@ -55,7 +55,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// Create new event in document DB.
         /// </summary>
         /// <param name="celebrationEvent">CelebrationEvent object.</param>
-        /// <returns>Task.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task CreateNewEventAsync(CelebrationEvent celebrationEvent)
         {
             await documentClient.CreateDocumentAsync(documentCollectionUri, celebrationEvent);
@@ -65,7 +65,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// Update existing event.
         /// </summary>
         /// <param name="celebrationEvent">CelebrationEvent object.</param>
-        /// <returns>Task.</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task UpdateEventAsync(CelebrationEvent celebrationEvent)
         {
             var option = new FeedOptions { EnableCrossPartitionQuery = true };
@@ -75,6 +75,23 @@ namespace Microsoft.Teams.Celebration.App.Helpers
             {
                 Document updated = await documentClient.ReplaceDocumentAsync(document.SelfLink, celebrationEvent);
             }
+        }
+
+        /// <summary>
+        /// Delete Event.
+        /// </summary>
+        /// <param name="eventId">Event Id.</param>
+        /// <param name="eventType">Event Type.</param>
+        /// <returns>Task.</returns>
+        public static async Task DeleteEvent(string eventId, string eventType)
+        {
+            var eventDocument = GetEventbyEventId(eventId);
+            await documentClient.DeleteDocumentAsync(eventDocument.SelfLink, new RequestOptions { PartitionKey = new PartitionKey(eventType) });
+        }
+
+        private static Document GetEventbyEventId(string eventId)
+        {
+            return documentClient.CreateDocumentQuery(documentCollectionUri).AsEnumerable().Where(x => x.Id == eventId).FirstOrDefault();
         }
 
         private static void InitializeDocumentClient()

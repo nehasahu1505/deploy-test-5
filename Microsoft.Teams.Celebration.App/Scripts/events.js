@@ -30,6 +30,7 @@ function submitForm() {
         ImageURL: $(".carousel-item.active > img").attr("src"),
         Teams: getSelected(),
         OwnerAadObjectId: userObjectId,
+        TimeZoneId: $('#timezonelist :selected').val(),
     };
     microsoftTeams.tasks.submitTask(eventInfo);
     return true;

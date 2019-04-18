@@ -6,9 +6,10 @@ namespace Microsoft.Teams.Celebration.App.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using Microsoft.Teams.Celebration.App.Models.Enums;
     using Newtonsoft.Json;
-
+   
     /// <summary>
     /// Represent event data.
     /// </summary>
@@ -75,16 +76,27 @@ namespace Microsoft.Teams.Celebration.App.Models
         public string ImageURL { get; set; }
 
         /// <summary>
-        /// Gets or sets month part of the event date.
+        /// Gets month part of the event date.
         /// </summary>
         [JsonProperty("eventMonth")]
-        public int EventMonth { get; set; }
+        public int EventMonth
+        {
+            get { return this.Date.Month; }
+        }
 
         /// <summary>
-        /// Gets or sets day part of the event date.
+        /// Gets day part of the event date.
         /// </summary>
         [JsonProperty("eventDay")]
-        public int EventDay { get; set; }
+        public int EventDay
+        {
+            get { return this.Date.Day; }
+        }
+
+        /// <summary>
+        /// Gets or sets time to post event in team.
+        /// </summary>
+        public TimeSpan TimeToPostEvent { get; set; }
 
         /// <summary>
         /// Gets or sets list of team information where bot is installed.

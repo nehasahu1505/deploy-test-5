@@ -21,7 +21,8 @@ function getSelected() {
 
 function submitForm() {
     var eventInfo = {
-        Type: $('#eventType :selected').text(),
+        Id:"", // TODO - Will assign eventId if task module is opened in edit mode.
+        Type: $('#eventType :selected').val(),
         Title: $('#title').val(),
         Header: $('#header').val(),
         Message: $('#message').val(),

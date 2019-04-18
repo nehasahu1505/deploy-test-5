@@ -33,6 +33,12 @@ namespace Microsoft.Teams.Celebration.App.Models
         public string Title { get; set; }
 
         /// <summary>
+        /// Gets or sets event heade.
+        /// </summary>
+        [JsonProperty("header")]
+        public string Header { get; set; }
+
+        /// <summary>
         /// Gets or sets message to post.
         /// </summary>
         [JsonProperty("message")]

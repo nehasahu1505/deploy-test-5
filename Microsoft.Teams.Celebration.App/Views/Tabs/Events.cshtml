@@ -15,12 +15,13 @@
     <head>
         <meta name="viewport" content="width=device-width" />
         <title>Events</title>
-        @Styles.Render("~/Content//bootstrap-3.4.min.css")
+
+        @Styles.Render("~/Content/bootstrap4.min.css")
         @Styles.Render("~/Content/tabStyles.css")
 
         @Scripts.Render("~/Scripts/jquery-3.4.0.min.js")
         @Scripts.Render("~/Scripts/microsoftTeams-1.4.1.min.js")
-        @Scripts.Render("~/Scripts/bootstrap-3.4.min.js")
+        @Scripts.Render("~/Scripts/bootstrap-4.3.1.min.js")
     </head>
     <body id="bodyEvents">
 
@@ -121,8 +122,12 @@
 
         submitHandler = (err, result) => {
             if (result) {
+                var requestUrl = "/Tabs/SaveEvent";
+                if (result["id"]) {
+                    requestUrl = "/Tabs/UpdateEvent";
+                }
                 $.ajax({
-                    url: "/Tabs/SaveEvent",
+                    url: requestUrl,
                     type: "Post" ,
                     data: JSON.stringify(result),
                     dataType: "json",

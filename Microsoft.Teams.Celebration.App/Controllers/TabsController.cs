@@ -43,7 +43,7 @@ namespace Microsoft.Teams.Celebration.App
         {
             ManageEventModel manageEventModel = new ManageEventModel()
             {
-                TeamDetails = new List<TeamDetails>(),
+                TeamDetails = new List<TeamDetails>(), // TODO : list of teams where the bot and user both in.
                 CelebrationEvent = await EventHelper.GetTeamEventByEventId(eventId),
                 TimeZonelist = Common.GetTimeZoneList(),
             };
@@ -51,14 +51,31 @@ namespace Microsoft.Teams.Celebration.App
         }
 
         /// <summary>
-        /// Save user event.
+        /// Save celebration event.
         /// </summary>
-        /// <param name="events">Events object.</param>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
         /// <returns>Events View.</returns>
         [Route("SaveEvent")]
-        public ActionResult SaveEvent(CelebrationEvent events)
+        [HttpPost]
+        public async Task<ActionResult> SaveEvent(CelebrationEvent celebrationEvent)
         {
-            return this.View();
+            await EventHelper.CreateNewEventAsync(celebrationEvent);
+            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId);
+            return this.View(events);
+        }
+
+        /// <summary>
+        /// update celebration event.
+        /// </summary>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
+        /// <returns>Events View.</returns>
+        [Route("UpdateEvent")]
+        [HttpPost]
+        public async Task<ActionResult> UpdateEvent(CelebrationEvent celebrationEvent)
+        {
+            await EventHelper.UpdateEventAsync(celebrationEvent);
+            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId);
+            return this.View(events);
         }
     }
 }

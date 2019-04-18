@@ -12,15 +12,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-
+    @*render css*@
     @Styles.Render("~/Content/bootstrap4.min.css")
-    @Styles.Render("~/Content/tabStyles.css")
     @Styles.Render("~/Content/fontawesome/font-awesome.min.css")
+    @Styles.Render("~/Content/tabStyles.css")
 
+    @*render scripts*@
     @Scripts.Render("~/Scripts/jquery-3.4.0.min.js")
     @Scripts.Render("~/Scripts/microsoftTeams-1.4.1.min.js")
     @Scripts.Render("~/Scripts/bootstrap-4.3.1.min.js")
 
+    @*render local js*@
     @Scripts.Render("~/Scripts/events.js")
 
 
@@ -55,9 +57,9 @@
                         </div>
                         <div class="select-wrapper">
                             <select id="eventType">
-                                <option value="0"> Anniversary</option>
+                                <option value="0"> Others</option>
                                 <option value="1"> Birthday</option>
-                                <option value="2"> Others</option>
+                                <option value="2"> Anniversary</option>
                             </select>
                        </div>
                     </div>

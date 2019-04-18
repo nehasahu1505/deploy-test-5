@@ -7,6 +7,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.Azure.Documents;
     using Microsoft.Azure.Documents.Client;
     using Microsoft.Azure.Documents.Linq;
     using Microsoft.Teams.Celebration.App.Models;
@@ -48,6 +49,32 @@ namespace Microsoft.Teams.Celebration.App.Helpers
             var option = new FeedOptions { EnableCrossPartitionQuery = true };
             return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option).Where(x => x.Id == eventId)
                          .AsDocumentQuery().ToListAsync()).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Create new event in document DB.
+        /// </summary>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
+        /// <returns>Task.</returns>
+        public static async Task CreateNewEventAsync(CelebrationEvent celebrationEvent)
+        {
+            await documentClient.CreateDocumentAsync(documentCollectionUri, celebrationEvent);
+        }
+
+        /// <summary>
+        /// Update existing event.
+        /// </summary>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
+        /// <returns>Task.</returns>
+        public static async Task UpdateEventAsync(CelebrationEvent celebrationEvent)
+        {
+            var option = new FeedOptions { EnableCrossPartitionQuery = true };
+            var document = documentClient.CreateDocumentQuery(documentCollectionUri, option)
+                          .Where(x => x.Id == celebrationEvent.Id).AsEnumerable().FirstOrDefault();
+            if (document != null)
+            {
+                Document updated = await documentClient.ReplaceDocumentAsync(document.SelfLink, celebrationEvent);
+            }
         }
 
         private static void InitializeDocumentClient()

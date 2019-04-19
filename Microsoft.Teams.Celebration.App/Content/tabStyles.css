@@ -216,7 +216,7 @@ div.manage-event-content > div:first-child > div:last-child {
     height: 3rem;
     padding: .8rem 1rem;
     box-sizing: border-box;
-    border: 0px solid #ccc;
+    border: none;
     border-radius: .3rem;
     background-color: #f3f2f1 !important;
     font-size: 1.4rem;
@@ -232,11 +232,11 @@ input[type="date"]:after {
     display: block;
     font-family: 'FontAwesome';
     content: '\f073';
-    width: 15px;
-    height: 20px;
+    width: 1.5rem;
+    height: 2rem;
     position: relative;
-    top: 0px;
-    right: 6px;
+    top: 0;
+    right: .6rem;
     color: grey;
 }
 
@@ -245,8 +245,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: none;
     z-index: 1;
     position: relative;
-    top: 0px;
-    right: -12px;
+    top: 0;
+    right: -1.2rem;
 }
 
 input[type=date]::-webkit-inner-spin-button {
@@ -279,7 +279,7 @@ input[type=date]::-webkit-inner-spin-button {
 
 .select-wrapper .timezone-dropdown {
     width: 88%;
-    margin-left: 2px;
+    margin-left: .2rem;
 }
 
 .select-wrapper:after {

@@ -6,10 +6,9 @@ namespace Microsoft.Teams.Celebration.App.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using Microsoft.Teams.Celebration.App.Models.Enums;
     using Newtonsoft.Json;
-   
+
     /// <summary>
     /// Represent event data.
     /// </summary>

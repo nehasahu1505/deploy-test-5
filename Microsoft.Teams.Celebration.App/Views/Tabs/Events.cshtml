@@ -40,7 +40,7 @@
                         Create share special events
                     </div>
                     <div class="new-event-button">
-                        <button class="button-primary" onclick="showNewEventTaskModule();">New Event</button>
+                        <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
                     </div>
                 </div>
             </div>
@@ -49,6 +49,7 @@
         {
             // Represents events in the form of tiles.
             <div id="eventList">
+              
                 @foreach (var celebrationEvent in Model)
                 {
                     <div class="event-tile" id="event">
@@ -82,7 +83,7 @@
                 @if (events.Count < 5)
                 {
                     // New event tile. It allows user to add new events.
-                    <div class="event-tile ghost-event-tile-opacity" id="newEventTile">
+                    <div class="event-tile ghost-event-tile-opacity" id="newEventTile" onclick="openManageEventsTaskModule();">
                         <div class="event-tile-title">
                             New Event
                         </div>
@@ -100,19 +101,20 @@
                         </div>
                     </div>
                 }
+
+                @if (events.Count < 5)
+                {
+                    <div class="new-event-div">
+                        <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        You have exhausted the limit on total no. of events.
+                    </div>
+                }
             </div>
-            if (events.Count < 5)
-            {
-                <div class="new-event-div">
-                    <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
-                </div>
-            }
-            else
-            {
-                <div>
-                    You have exhausted the limit on total no. of events.
-                </div>
-            }
         }
 
         <script>
@@ -131,11 +133,14 @@
                     url: requestUrl,
                     type: "Post" ,
                     data: JSON.stringify(result),
-                    dataType: "json",
+                    dataType: "text",
                     contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        //TODO: refresh the event view.
+                    success: function () {
+                       $("#eventList").load("/Tabs/Events?userObjectId=" + result["OwnerAadObjectId"]);
                     },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        //TODO: Handle error.
+                    }
                 });
             }
         };

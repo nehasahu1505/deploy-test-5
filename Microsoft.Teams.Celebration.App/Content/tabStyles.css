@@ -78,6 +78,7 @@ input::placeholder {
     background-color: white;
     color: #252424;
     font-weight: normal;
+    cursor:pointer;
 }
 
 .event-tile-title {

@@ -6,7 +6,6 @@ namespace Microsoft.Teams.Celebration.App
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Mvc;
     using Microsoft.Bot.Connector.Teams.Models;
@@ -62,9 +61,9 @@ namespace Microsoft.Teams.Celebration.App
         {
             var timespan = Array.ConvertAll<string, int>(ApplicationSettings.TimeToPostCelebration.Split(':'), Convert.ToInt32);
             celebrationEvent.TimeToPostEvent = new TimeSpan(timespan[0], timespan[1], timespan[2]);
+
             await EventHelper.CreateNewEventAsync(celebrationEvent);
-            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId).ToListAsync();
-            return this.View(events);
+            return this.View("Events", new List<CelebrationEvent>());
         }
 
         /// <summary>
@@ -77,8 +76,7 @@ namespace Microsoft.Teams.Celebration.App
         public async Task<ActionResult> UpdateEvent(CelebrationEvent celebrationEvent)
         {
             await EventHelper.UpdateEventAsync(celebrationEvent);
-            var events = EventHelper.GetEventsbyOwnerObjectId(celebrationEvent.OwnerAadObjectId).ToListAsync();
-            return this.View(events);
+            return this.View("Events", new List<CelebrationEvent>());
         }
 
         /// <summary>
@@ -91,8 +89,7 @@ namespace Microsoft.Teams.Celebration.App
         public async Task<ActionResult> DeleteEvent(string eventId, string userObjectId, string eventType)
         {
             await EventHelper.DeleteEvent(eventId, eventType);
-            var events = EventHelper.GetEventsbyOwnerObjectId(userObjectId).ToListAsync();
-            return this.View("Events", events);
+            return this.View("Events", new List<CelebrationEvent>());
         }
     }
 }

@@ -85,13 +85,17 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <returns>Task.</returns>
         public static async Task DeleteEvent(string eventId, string ownerAadObjectId)
         {
-            var eventDocument = await GetEventbyEventId(eventId);
-            await documentClient.DeleteDocumentAsync(eventDocument.SelfLink, new RequestOptions { PartitionKey = new PartitionKey(ownerAadObjectId) });
+            var document = await GetEventbyEventId(eventId);
+            if (document != null)
+            {
+                await documentClient.DeleteDocumentAsync(document.SelfLink, new RequestOptions { PartitionKey = new PartitionKey(ownerAadObjectId) });
+            }
         }
 
         private static async Task<CelebrationEvent> GetEventbyEventId(string eventId)
         {
-            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri).Where(x => x.Id.ToString() == eventId)
+            var options = new FeedOptions { EnableCrossPartitionQuery = true };
+            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options).Where(x => x.Id.ToString() == eventId)
                          .AsDocumentQuery().ToListAsync()).FirstOrDefault();
         }
 

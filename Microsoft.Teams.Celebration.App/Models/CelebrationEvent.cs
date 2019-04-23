@@ -27,7 +27,7 @@ namespace Microsoft.Teams.Celebration.App.Models
         /// Gets or sets event id that uniquely idetifies the event.
         /// </summary>
         [JsonProperty("Id")]
-        public Guid Id { get; set; }
+        public new Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets type of event. Birthday/Anniversary/others.

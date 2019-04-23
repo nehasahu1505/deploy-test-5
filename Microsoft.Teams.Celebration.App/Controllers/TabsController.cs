@@ -4,7 +4,6 @@
 
 namespace Microsoft.Teams.Celebration.App
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
@@ -44,8 +43,8 @@ namespace Microsoft.Teams.Celebration.App
             ManageEventModel manageEventModel = new ManageEventModel()
             {
                 TeamDetails = new List<TeamDetails>(), // TODO : list of teams where the bot and user both in.
-                CelebrationEvent = await EventHelper.GetTeamEventByEventId(eventId),
-                TimeZonelist = Common.GetTimeZoneList(),
+                CelebrationEvent = await EventHelper.GetTeamEventByEventId(eventId, userObjectId),
+                TimeZoneList = Common.GetTimeZoneList(),
             };
             return this.View(manageEventModel);
         }
@@ -59,9 +58,6 @@ namespace Microsoft.Teams.Celebration.App
         [HttpPost]
         public async Task<ActionResult> SaveEvent(CelebrationEvent celebrationEvent)
         {
-            var timespan = Array.ConvertAll<string, int>(ApplicationSettings.TimeToPostCelebration.Split(':'), Convert.ToInt32);
-            celebrationEvent.TimeToPostEvent = new TimeSpan(timespan[0], timespan[1], timespan[2]);
-
             await EventHelper.CreateNewEventAsync(celebrationEvent);
             return this.View("Events", new List<CelebrationEvent>());
         }
@@ -83,12 +79,13 @@ namespace Microsoft.Teams.Celebration.App
         /// Delete event.
         /// </summary>
         /// <param name="eventId">event Id.</param>
-        /// <param name="userObjectId">User Object Id.</param>
-        /// <param name="eventType">Event Type.</param>
+        /// <param name="ownerAadObjectId">AadObjectId of owner.</param>
         /// <returns>Task.</returns>
-        public async Task<ActionResult> DeleteEvent(string eventId, string userObjectId, string eventType)
+        [Route("DeleteEvent")]
+        [HttpPost]
+        public async Task<ActionResult> DeleteEvent(string eventId, string ownerAadObjectId)
         {
-            await EventHelper.DeleteEvent(eventId, eventType);
+            await EventHelper.DeleteEvent(eventId, ownerAadObjectId);
             return this.View("Events", new List<CelebrationEvent>());
         }
     }

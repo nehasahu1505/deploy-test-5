@@ -23,8 +23,8 @@ namespace Microsoft.Teams.Celebration.App.Models
         public IEnumerable<TeamDetails> TeamDetails { get; set; }
 
         /// <summary>
-        /// Gets or sets list of windows timezones, from TimeZonIfo Api.
+        /// Gets or sets list of windows timezones, from TimeZonInfo Api.
         /// </summary>
-        public IEnumerable<TimeZoneDisplayInfo> TimeZonelist { get; set; }
+        public IEnumerable<TimeZoneDisplayInfo> TimeZoneList { get; set; }
     }
 }

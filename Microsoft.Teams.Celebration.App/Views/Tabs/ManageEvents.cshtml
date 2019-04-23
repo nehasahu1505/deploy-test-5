@@ -123,7 +123,7 @@
                         <div class="select-wrapper">
                             <span>10:00 am</span>
                             <select id="timezonelist" class="timezone-dropdown" >
-                                @foreach (var timeZone in Model.TimeZonelist)
+                                @foreach (var timeZone in Model.TimeZoneList)
                                 {
                                     <option value="@timeZone.TimeZoneId"> @timeZone.TimeZoneDisplayName</option>
                                 }

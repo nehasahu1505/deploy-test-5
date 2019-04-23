@@ -15,10 +15,18 @@ namespace Microsoft.Teams.Celebration.App.Models
     public class CelebrationEvent
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CelebrationEvent"/> class.
+        /// </summary>
+        public CelebrationEvent()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
+        /// <summary>
         /// Gets or sets event id that uniquely idetifies the event.
         /// </summary>
-        [JsonProperty("id")]
-        public string Id { get; set; }
+        [JsonProperty("Id")]
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets type of event. Birthday/Anniversary/others.
@@ -91,11 +99,6 @@ namespace Microsoft.Teams.Celebration.App.Models
         {
             get { return this.Date.Day; }
         }
-
-        /// <summary>
-        /// Gets or sets time to post event in team.
-        /// </summary>
-        public TimeSpan TimeToPostEvent { get; set; }
 
         /// <summary>
         /// Gets or sets list of team information where bot is installed.

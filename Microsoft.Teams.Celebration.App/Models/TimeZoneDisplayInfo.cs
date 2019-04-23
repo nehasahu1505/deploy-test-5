@@ -5,7 +5,7 @@
 namespace Microsoft.Teams.Celebration.App.Models
 {
     /// <summary>
-    /// Store windows TimeZone list.
+    /// Model to display timezone list.
     /// </summary>
     public class TimeZoneDisplayInfo
     {

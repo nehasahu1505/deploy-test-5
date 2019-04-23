@@ -30,24 +30,25 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <summary>
         /// Returns DocumentQuery for Events.
         /// </summary>
-        /// <param name="aadObjectId">AadUserObjectId.</param>
+        /// <param name="ownerAadObjectId">AadUserObjectId.</param>
         /// <returns>DocumentQuery for Events.</returns>
-        public static IDocumentQuery<CelebrationEvent> GetEventsbyOwnerObjectId(string aadObjectId)
+        public static IDocumentQuery<CelebrationEvent> GetEventsbyOwnerObjectId(string ownerAadObjectId)
         {
-            var option = new FeedOptions { EnableCrossPartitionQuery = true };
+            var option = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
             return documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option)
-                .Where(x => x.OwnerAadObjectId == aadObjectId).AsDocumentQuery();
+                .Where(x => x.OwnerAadObjectId == ownerAadObjectId).AsDocumentQuery();
         }
 
         /// <summary>
         /// Get CelebrationEvent by eventId.
         /// </summary>
         /// <param name="eventId">event Id.</param>
+        /// <param name="ownerAadObjectId">AadObjectId of owner.</param>
         /// <returns>CelebrationEvent object.</returns>
-        public static async Task<CelebrationEvent> GetTeamEventByEventId(string eventId)
+        public static async Task<CelebrationEvent> GetTeamEventByEventId(string eventId, string ownerAadObjectId)
         {
-            var option = new FeedOptions { EnableCrossPartitionQuery = true };
-            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option).Where(x => x.Id == eventId)
+            var option = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
+            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option).Where(x => x.Id.ToString() == eventId)
                          .AsDocumentQuery().ToListAsync()).FirstOrDefault();
         }
 
@@ -68,9 +69,8 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task UpdateEventAsync(CelebrationEvent celebrationEvent)
         {
-            var option = new FeedOptions { EnableCrossPartitionQuery = true };
-            var document = documentClient.CreateDocumentQuery(documentCollectionUri, option)
-                          .Where(x => x.Id == celebrationEvent.Id).AsEnumerable().FirstOrDefault();
+            var document = await GetEventbyEventId(celebrationEvent.Id.ToString());
+
             if (document != null)
             {
                 Document updated = await documentClient.ReplaceDocumentAsync(document.SelfLink, celebrationEvent);
@@ -81,17 +81,18 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// Delete Event.
         /// </summary>
         /// <param name="eventId">Event Id.</param>
-        /// <param name="eventType">Event Type.</param>
+        /// <param name="ownerAadObjectId">Aad object id of owner.</param>
         /// <returns>Task.</returns>
-        public static async Task DeleteEvent(string eventId, string eventType)
+        public static async Task DeleteEvent(string eventId, string ownerAadObjectId)
         {
-            var eventDocument = GetEventbyEventId(eventId);
-            await documentClient.DeleteDocumentAsync(eventDocument.SelfLink, new RequestOptions { PartitionKey = new PartitionKey(eventType) });
+            var eventDocument = await GetEventbyEventId(eventId);
+            await documentClient.DeleteDocumentAsync(eventDocument.SelfLink, new RequestOptions { PartitionKey = new PartitionKey(ownerAadObjectId) });
         }
 
-        private static Document GetEventbyEventId(string eventId)
+        private static async Task<Document> GetEventbyEventId(string eventId)
         {
-            return documentClient.CreateDocumentQuery(documentCollectionUri).AsEnumerable().Where(x => x.Id == eventId).FirstOrDefault();
+            return (await documentClient.CreateDocumentQuery(documentCollectionUri).Where(x => x.Id == eventId)
+                         .AsDocumentQuery().ToListAsync()).FirstOrDefault();
         }
 
         private static void InitializeDocumentClient()

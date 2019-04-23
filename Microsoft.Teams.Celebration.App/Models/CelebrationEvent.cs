@@ -6,13 +6,14 @@ namespace Microsoft.Teams.Celebration.App.Models
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.Azure.Documents;
     using Microsoft.Teams.Celebration.App.Models.Enums;
     using Newtonsoft.Json;
 
     /// <summary>
     /// Represent event data.
     /// </summary>
-    public class CelebrationEvent
+    public class CelebrationEvent : Document
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CelebrationEvent"/> class.

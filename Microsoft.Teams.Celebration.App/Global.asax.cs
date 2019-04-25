@@ -6,8 +6,10 @@ namespace Microsoft.Teams.Celebration.App
 {
     using System.Reflection;
     using System.Web.Http;
+    using System.Web.Mvc;
     using System.Web.Routing;
     using Autofac;
+    using Autofac.Integration.Mvc;
     using Autofac.Integration.WebApi;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Bot.Builder.Azure;
@@ -37,9 +39,14 @@ namespace Microsoft.Teams.Celebration.App
 
                    builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
                    builder.RegisterWebApiFilterProvider(GlobalConfiguration.Configuration);
+
+                   builder.RegisterControllers(Assembly.GetExecutingAssembly());
                });
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(Conversation.Container));
         }
     }
 }

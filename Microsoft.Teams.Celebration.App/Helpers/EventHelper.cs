@@ -34,8 +34,8 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <returns>DocumentQuery for Events.</returns>
         public static IDocumentQuery<CelebrationEvent> GetEventsbyOwnerObjectId(string ownerAadObjectId)
         {
-            var option = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
-            return documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option)
+            var options = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
+            return documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options)
                 .Where(x => x.OwnerAadObjectId == ownerAadObjectId).AsDocumentQuery();
         }
 
@@ -47,8 +47,8 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <returns>CelebrationEvent object.</returns>
         public static async Task<CelebrationEvent> GetTeamEventByEventId(string eventId, string ownerAadObjectId)
         {
-            var option = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
-            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, option).Where(x => x.Id.ToString() == eventId)
+            var options = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
+            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options).Where(x => x.Id.ToString() == eventId)
                          .AsDocumentQuery().ToListAsync()).FirstOrDefault();
         }
 

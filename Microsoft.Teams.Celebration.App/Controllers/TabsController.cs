@@ -46,6 +46,7 @@ namespace Microsoft.Teams.Celebration.App
                 CelebrationEvent = await EventHelper.GetTeamEventByEventId(eventId, userObjectId),
                 TimeZoneList = Common.GetTimeZoneList(),
             };
+
             return this.View(manageEventModel);
         }
 

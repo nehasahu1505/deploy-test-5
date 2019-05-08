@@ -23,5 +23,10 @@ namespace Microsoft.Teams.Celebration.App
         /// Default locale for bot.
         /// </summary>
         public const string DefaultLocale = "en-us";
+
+        /// <summary>
+        /// maximum no. of events per user.
+        /// </summary>
+        public const int MaxEventCountPerUser = 5;
     }
 }

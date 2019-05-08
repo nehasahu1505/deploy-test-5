@@ -31,12 +31,12 @@
 <body>
 
     <form id="ManageEvents" onSubmit="return submitForm();">
-        <div id="manageEventsDiv" class="manage-event-outer-div">
+        <div class="manage-event-outer-div">
             <div id="celebrationImageCarousal" class="carousel slide manage-event-celebration-image-carousal" 
                  data-ride="carousel" data-interval="false">
                 <!-- slideshow -->
                 <div class="carousel-inner">
-                    @for (var i = 0; i < Common.GetCountofFilesInDirectory(Server.MapPath("~/Content/Images/Carousel")); i++)
+                    @for (var i = 0; i < Common.GetCountOfFilesInDirectory(Server.MapPath("~/Content/Images/Carousel")); i++)
                     {
                         <div class="carousel-item">
                             <img src='../../Content/Images/Carousel/Celebrations-bot-image-@i-.png'>

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.Teams.Celebration.App.Helpers;
 @using Microsoft.Teams.Celebration.App.Models;
+
 @{
     Layout = null;
 }
@@ -80,7 +81,7 @@
                     </div>
                 }
 
-                @if (events.Count < 5)
+                @if (events.Count < Constant.MaxEventCountPerUser)
                 {
                     // New event tile. It allows user to add new events.
                     <div class="event-tile ghost-event-tile-opacity" id="newEventTile" onclick="openManageEventsTaskModule();">
@@ -102,7 +103,7 @@
                     </div>
                 }
 
-                @if (events.Count < 5)
+                @if (events.Count < Constant.MaxEventCountPerUser)
                 {
                     <div class="new-event-div">
                         <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
@@ -124,11 +125,8 @@
 
         submitHandler = (err, result) => {
             if (result) {
-                var requestUrl = "/Tabs/SaveEvent";
-                if (result["id"]) {
-                    requestUrl = "/Tabs/UpdateEvent";
-                }
-
+                let requestUrl = (result["id"]) ? "/Tabs/UpdateEvent" : "/Tabs/SaveEvent";
+                
                 $.ajax({
                     url: requestUrl,
                     type: "Post" ,

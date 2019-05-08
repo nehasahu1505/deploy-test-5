@@ -19,7 +19,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// </summary>
         /// <param name="directoryPath">directory path.</param>
         /// <returns>file count.</returns>
-        public static int GetCountofFilesInDirectory(string directoryPath)
+        public static int GetCountOfFilesInDirectory(string directoryPath)
         {
             return Directory.Exists(directoryPath) ? Directory.GetFiles(directoryPath).Length : 0;
         }

@@ -32,7 +32,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// </summary>
         /// <param name="ownerAadObjectId">AadUserObjectId.</param>
         /// <returns>DocumentQuery for Events.</returns>
-        public static IDocumentQuery<CelebrationEvent> GetEventsbyOwnerObjectId(string ownerAadObjectId)
+        public static IDocumentQuery<CelebrationEvent> GetEventsByOwnerObjectId(string ownerAadObjectId)
         {
             var options = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
             return documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options)

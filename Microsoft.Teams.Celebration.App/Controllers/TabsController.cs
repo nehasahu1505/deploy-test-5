@@ -26,7 +26,7 @@ namespace Microsoft.Teams.Celebration.App
         [HttpGet]
         public async Task<ActionResult> Events(string userObjectId)
         {
-            var events = await EventHelper.GetEventsbyOwnerObjectId(userObjectId).ToListAsync();
+            var events = await EventHelper.GetEventsByOwnerObjectId(userObjectId).ToListAsync();
             return this.View(events);
         }
 

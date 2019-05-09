@@ -9,116 +9,116 @@
 
 @{
     List<CelebrationEvent> events = Model.AsEnumerable().ToList();
- }
-    <!DOCTYPE html>
+}
+<!DOCTYPE html>
 
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>Events</title>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Events</title>
 
-        @Styles.Render("~/Content//bootstrap-3.4.min.css")
-        @Styles.Render("~/Content/tabStyles.css")
+    @Styles.Render("~/Content//bootstrap-3.4.min.css")
+    @Styles.Render("~/Content/tabStyles.css")
 
-        @Scripts.Render("~/Scripts/jquery-3.4.0.min.js")
-        @Scripts.Render("~/Scripts/microsoftTeams-1.4.1.min.js")
-        @Scripts.Render("~/Scripts/bootstrap-3.4.min.js")
-    </head>
-    <body>
+    @Scripts.Render("~/Scripts/jquery-3.4.0.min.js")
+    @Scripts.Render("~/Scripts/microsoftTeams-1.4.1.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-3.4.min.js")
+</head>
+<body>
 
-        @if (events.Count == 0)
-        {
-            // Empty state div
-            <div id="divEmptyStateforTab" class="empty-state-div">
-                <div id="emptyEvent">
-                    <div>
-                        <img src="../../Content/Images/empty-state-celebrations.png" class="empty-event-image" />
-                    </div>
-                    <div class="empty-event-header">
-                        Start Celebrating with your team today.
-                    </div>
-                    <div class="empty-event-regular-text">
-                        Create share special events
-                    </div>
-                    <div class="new-event-button">
-                        <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
-                    </div>
+    @if (events.Count == 0)
+    {
+        // Empty state div
+        <div id="divEmptyStateforTab" class="empty-state-div">
+            <div id="emptyEvent">
+                <div>
+                    <img src="../../Content/Images/empty-state-celebrations.png" class="empty-event-image" />
+                </div>
+                <div class="empty-event-header">
+                    Start Celebrating with your team today.
+                </div>
+                <div class="empty-event-regular-text">
+                    Create share special events
+                </div>
+                <div class="new-event-button">
+                    <button class="button button-primary" onclick="newEventButtonClick();">New Event</button>
                 </div>
             </div>
-        }
-        else
-        {
-            // Represents events in the form of tiles.
-            <div id="eventList">
-              
-                @foreach (var celebrationEvent in Model)
-                {
-                    <div class="event-tile" id="event">
-                        <div class="event-tile-title">
-                            @celebrationEvent.Title
-                        </div>
-                        <div class="dropdown event-tile-dropdown">
-                            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                                ...
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#"> Edit </a></li>
-                                <li><a href="#"> Delete </a></li>
-                            </ul>
-                        </div>
-                        <div class="event-tile-date">
-                            @celebrationEvent.Date.ToString("MMMM dd")
-                        </div>
-                        <div class="event-tile-message-header">
-                            Message
-                        </div>
-                        <div class="event-tile-message">
-                            @celebrationEvent.Message
-                        </div>
-                        <div class="event-tile-celebration-image-div">
-                            <img src="@celebrationEvent.ImageURL" alt="" />
-                        </div>
-                    </div>
-                }
+        </div>
+    }
+    else
+    {
+        // Represents events in the form of tiles.
+        <div id="eventList">
 
-                @if (events.Count < Constant.MaxEventCountPerUser)
-                {
-                    // New event tile. It allows user to add new events.
-                    <div class="event-tile ghost-event-tile-opacity" id="newEventTile" onclick="openManageEventsTaskModule();">
-                        <div class="event-tile-title">
-                            New Event
-                        </div>
-                        <div class="event-tile-date">
-                            Date
-                        </div>
-                        <div class="event-tile-message-header">
-                            Message
-                        </div>
-                        <div class="event-tile-message">
-                            Create new event to add message
-                        </div>
-                        <div class="event-tile-celebration-image-div">
-                            <img src="../../Content/Images/Celebrations-bot-image-new-event.png" alt="" />
-                        </div>
+            @foreach (var celebrationEvent in Model)
+            {
+                <div class="event-tile" id="event">
+                    <div class="event-tile-title">
+                        @celebrationEvent.Title
                     </div>
-                }
+                    <div class="dropdown event-tile-dropdown">
+                        <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                            ...
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"> Edit </a></li>
+                            <li><a href="#"> Delete </a></li>
+                        </ul>
+                    </div>
+                    <div class="event-tile-date">
+                        @celebrationEvent.Date.ToString("MMMM dd")
+                    </div>
+                    <div class="event-tile-message-header">
+                        Message
+                    </div>
+                    <div class="event-tile-message">
+                        @celebrationEvent.Message
+                    </div>
+                    <div class="event-tile-celebration-image-div">
+                        <img src="@celebrationEvent.ImageURL" alt="" />
+                    </div>
+                </div>
+            }
 
-                @if (events.Count < Constant.MaxEventCountPerUser)
-                {
-                    <div class="new-event-div">
-                        <button class="button button-primary" onclick="openManageEventsTaskModule();">New Event</button>
+            @if (events.Count < Constant.MaxEventCountPerUser)
+            {
+                // New event tile. It allows user to add new event.
+                <div class="event-tile ghost-event-tile-opacity" id="newEventTile" onclick="newEventTileClick();">
+                    <div class="event-tile-title">
+                        New Event
                     </div>
-                }
-                else
-                {
-                    <div>
-                        You have exhausted the limit on total no. of events.
+                    <div class="event-tile-date">
+                        Date
                     </div>
-                }
-            </div>
-        }
+                    <div class="event-tile-message-header">
+                        Message
+                    </div>
+                    <div class="event-tile-message">
+                        Create new event to add message
+                    </div>
+                    <div class="event-tile-celebration-image-div">
+                        <img src="../../Content/Images/Celebrations-bot-image-new-event.png" alt="" />
+                    </div>
+                </div>
+            }
 
-        <script>
+            @if (events.Count < Constant.MaxEventCountPerUser)
+            {
+                <div class="new-event-div">
+                    <button class="button button-primary" onclick="newEventButtonClick();">New Event</button>
+                </div>
+            }
+            else
+            {
+                <div>
+                    You have exhausted the limit on total no. of events.
+                </div>
+            }
+        </div>
+    }
+
+    <script>
         var microsoftTeams;
 
         microsoftTeams.initialize();
@@ -126,7 +126,7 @@
         submitHandler = (err, result) => {
             if (result) {
                 let requestUrl = (result["id"]) ? "/Tabs/UpdateEvent" : "/Tabs/SaveEvent";
-                
+
                 $.ajax({
                     url: requestUrl,
                     type: "Post" ,
@@ -143,21 +143,28 @@
             }
         };
 
-        function openManageEventsTaskModule() {
-            let taskInfo = {
-                title: "Manage Events",
-                height: "800px", // 770px
-                width: "600px",
-                url: null,
-                card: null,
-                fallbackUrl: null,
-                completionBotId: null,
+        function newEventButtonClick() {
+            openTaskModule();
+         }
+
+        function newEventTileClick() {
+           openTaskModule();
+         }
+
+        function openTaskModule() {
+           let taskInfo = {
+            title: "Manage Events",
+            height: "800px", // 770px
+            width: "600px",
+            url: null,
+            card: null,
+            fallbackUrl: null,
+            completionBotId: null,
             };
             taskInfo.url = "@(ApplicationSettings.BaseUrl)" + "/Tabs/ManageEvents";
             taskInfo.fallbackUrl = taskInfo.url;
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         }
-
-        </script>
-    </body>
+    </script>
+</body>
 </html>

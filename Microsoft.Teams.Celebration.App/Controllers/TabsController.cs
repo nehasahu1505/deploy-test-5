@@ -43,7 +43,7 @@ namespace Microsoft.Teams.Celebration.App
             ManageEventModel manageEventModel = new ManageEventModel()
             {
                 TeamDetails = new List<TeamDetails>(), // TODO : list of teams where the bot and user both in.
-                CelebrationEvent = await EventHelper.GetTeamEventByEventId(eventId, userObjectId),
+                CelebrationEvent = await EventHelper.GetEventByEventId(eventId, userObjectId),
                 TimeZoneList = Common.GetTimeZoneList(),
             };
 

@@ -45,10 +45,10 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <param name="eventId">event Id.</param>
         /// <param name="ownerAadObjectId">AadObjectId of owner.</param>
         /// <returns>CelebrationEvent object.</returns>
-        public static async Task<CelebrationEvent> GetTeamEventByEventId(string eventId, string ownerAadObjectId)
+        public static async Task<CelebrationEvent> GetEventByEventId(string eventId, string ownerAadObjectId)
         {
             var options = new FeedOptions { PartitionKey = new PartitionKey(ownerAadObjectId) };
-            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options).Where(x => x.Id.ToString() == eventId)
+            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options).Where(x => x.Id == eventId)
                          .AsDocumentQuery().ToListAsync()).FirstOrDefault();
         }
 
@@ -69,7 +69,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task UpdateEventAsync(CelebrationEvent celebrationEvent)
         {
-            var document = await GetEventbyEventId(celebrationEvent.Id.ToString());
+            var document = GetEventbyEventId(celebrationEvent.Id);
 
             if (document != null)
             {
@@ -81,22 +81,20 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// Delete Event.
         /// </summary>
         /// <param name="eventId">Event Id.</param>
-        /// <param name="ownerAadObjectId">Aad object id of owner.</param>
+        /// <param name="ownerAadObjectId">Aadobject id of owner.</param>
         /// <returns>Task.</returns>
         public static async Task DeleteEvent(string eventId, string ownerAadObjectId)
         {
-            var document = await GetEventbyEventId(eventId);
+            var document = GetEventbyEventId(eventId);
             if (document != null)
             {
                 await documentClient.DeleteDocumentAsync(document.SelfLink, new RequestOptions { PartitionKey = new PartitionKey(ownerAadObjectId) });
             }
         }
 
-        private static async Task<CelebrationEvent> GetEventbyEventId(string eventId)
+        private static Document GetEventbyEventId(string eventId)
         {
-            var options = new FeedOptions { EnableCrossPartitionQuery = true };
-            return (await documentClient.CreateDocumentQuery<CelebrationEvent>(documentCollectionUri, options).Where(x => x.Id.ToString() == eventId)
-                         .AsDocumentQuery().ToListAsync()).FirstOrDefault();
+           return documentClient.CreateDocumentQuery(documentCollectionUri).Where(x => x.Id == eventId).FirstOrDefault();
         }
 
         private static void InitializeDocumentClient()

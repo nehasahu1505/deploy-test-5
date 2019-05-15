@@ -20,14 +20,14 @@ namespace Microsoft.Teams.Celebration.App.Models
         /// </summary>
         public CelebrationEvent()
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid().ToString();
         }
 
         /// <summary>
-        /// Gets or sets event id that uniquely idetifies the event.
+        /// Gets or sets event id that uniquely identifies the event.
         /// </summary>
-        [JsonProperty("Id")]
-        public new Guid Id { get; set; }
+        [JsonProperty("id")]
+        public override string Id { get; set; }
 
         /// <summary>
         /// Gets or sets type of event. Birthday/Anniversary/others.

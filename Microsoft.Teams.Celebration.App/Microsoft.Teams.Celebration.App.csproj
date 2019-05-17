@@ -220,6 +220,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -229,18 +232,21 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap4.min.css" />
-    <Content Include="Content\Images\Celebrations-bot_image-01_rawpixel.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-02_pineapple_supply_co.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-03_wokandapix.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-04_pixarc.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-05_jason-leung.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-06_meagan-paddock.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-07_ray-chan.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-08_social-cut.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-09_annie-spratt.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-10_rawpixel.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-11_adi-goldstein.png" />
-    <Content Include="Content\Images\Celebrations-bot_image-12_new_event.png" />
+    <Content Include="Content\fontawesome\font-awesome.css" />
+    <Content Include="Content\fontawesome\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-1-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-2-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-3-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-4-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-5-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-6-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-7-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-8-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-9-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-10-.png" />
+    <Content Include="Content\Images\Carousel\Celebrations-bot-image-0-.png" />
+    <Content Include="Content\Images\Celebrations-bot-image-new-event.png" />
     <Content Include="Content\Images\empty-state-celebrations.png" />
     <Content Include="Content\tabStyles.css" />
     <Content Include="Content\msteams-16.css" />
@@ -248,9 +254,15 @@
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-3.4.min.js" />
+    <Content Include="Scripts\bootstrap-4.3.1.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\events.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -270,14 +282,18 @@
     <Compile Include="ApplicationConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CelebrationsAppModule.cs" />
     <Compile Include="Helpers\ApplicationSettings.cs" />
+    <Compile Include="Helpers\Common.cs" />
     <Compile Include="Helpers\EventHelper.cs" />
     <Compile Include="Models\CelebrationEvent.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
+    <Compile Include="Models\ManageEventModel.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\TimeZoneDisplayInfo.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -302,8 +318,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Tabs\Events.cshtml" />
     <Content Include="Views\Tabs\ManageEvents.cshtml" />
+    <Content Include="Views\Tabs\Events.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

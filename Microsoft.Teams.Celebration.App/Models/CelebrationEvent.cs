@@ -6,21 +6,16 @@ namespace Microsoft.Teams.Celebration.App.Models
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.Azure.Documents;
     using Microsoft.Teams.Celebration.App.Models.Enums;
     using Newtonsoft.Json;
 
     /// <summary>
     /// Represent event data.
     /// </summary>
-    public class CelebrationEvent
+    public class CelebrationEvent : Document
     {
-        /// <summary>
-        /// Gets or sets event id that uniquely idetifies the event.
-        /// </summary>
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        /// <summary>
+         /// <summary>
         /// Gets or sets type of event. Birthday/Anniversary/others.
         /// </summary>
         [JsonProperty("type")]
@@ -31,6 +26,12 @@ namespace Microsoft.Teams.Celebration.App.Models
         /// </summary>
         [JsonProperty("title")]
         public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets event header.
+        /// </summary>
+        [JsonProperty("header")]
+        public string Header { get; set; }
 
         /// <summary>
         /// Gets or sets message to post.
@@ -63,22 +64,28 @@ namespace Microsoft.Teams.Celebration.App.Models
         public string OwnerAadObjectId { get; set; }
 
         /// <summary>
-        /// Gets or sets image Url for event.
+        /// Gets or sets image URL for event.
         /// </summary>
         [JsonProperty("imageURL")]
         public string ImageURL { get; set; }
 
         /// <summary>
-        /// Gets or sets month part of the event date.
+        /// Gets month part of the event date.
         /// </summary>
         [JsonProperty("eventMonth")]
-        public int EventMonth { get; set; }
+        public int EventMonth
+        {
+            get { return this.Date.Month; }
+        }
 
         /// <summary>
-        /// Gets or sets day part of the event date.
+        /// Gets day part of the event date.
         /// </summary>
         [JsonProperty("eventDay")]
-        public int EventDay { get; set; }
+        public int EventDay
+        {
+            get { return this.Date.Day; }
+        }
 
         /// <summary>
         /// Gets or sets list of team information where bot is installed.

@@ -4,8 +4,10 @@
 
 namespace Microsoft.Teams.Celebration.App
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
+    using Microsoft.Bot.Connector.Teams.Models;
     using Microsoft.Teams.Celebration.App.Helpers;
     using Microsoft.Teams.Celebration.App.Models;
     using Microsoft.Teams.Celebration.App.Utilities;
@@ -24,30 +26,68 @@ namespace Microsoft.Teams.Celebration.App
         [HttpGet]
         public async Task<ActionResult> Events(string userObjectId)
         {
-            var events = await EventHelper.GetEventsbyOwnerObjectId(userObjectId).ToListAsync();
+            var events = await EventHelper.GetEventsByOwnerObjectId(userObjectId).ToListAsync();
             return this.View(events);
         }
 
         /// <summary>
         /// Manage Events view.
         /// </summary>
+        /// <param name="userObjectId">User Object Id.</param>
+        /// <param name="eventId">eventId.</param>
         /// <returns>Manage event task module view.</returns>
         [Route("ManageEvents")]
         [HttpGet]
-        public ActionResult ManageEvents()
+        public async Task<ActionResult> ManageEvents(string userObjectId, string eventId)
         {
-          return this.View();
+            ManageEventModel manageEventModel = new ManageEventModel()
+            {
+                TeamDetails = new List<TeamDetails>(), // TODO : list of teams where the bot and user both in.
+                CelebrationEvent = await EventHelper.GetEventByEventId(eventId, userObjectId),
+                TimeZoneList = Common.GetTimeZoneList(),
+            };
+
+            return this.View(manageEventModel);
         }
 
         /// <summary>
-        /// Save user event.
+        /// Save celebration event.
         /// </summary>
-        /// <param name="events">Events object.</param>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
         /// <returns>Events View.</returns>
         [Route("SaveEvent")]
-        public ActionResult SaveEvent(CelebrationEvent events)
+        [HttpPost]
+        public async Task<ActionResult> SaveEvent(CelebrationEvent celebrationEvent)
         {
-            return this.View();
+            await EventHelper.CreateNewEventAsync(celebrationEvent);
+            return this.View("Events", new List<CelebrationEvent>());
+        }
+
+        /// <summary>
+        /// update celebration event.
+        /// </summary>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
+        /// <returns>Events View.</returns>
+        [Route("UpdateEvent")]
+        [HttpPost]
+        public async Task<ActionResult> UpdateEvent(CelebrationEvent celebrationEvent)
+        {
+            await EventHelper.UpdateEventAsync(celebrationEvent);
+            return this.View("Events", new List<CelebrationEvent>());
+        }
+
+        /// <summary>
+        /// Delete event.
+        /// </summary>
+        /// <param name="eventId">event Id.</param>
+        /// <param name="ownerAadObjectId">AadObjectId of owner.</param>
+        /// <returns>Task.</returns>
+        [Route("DeleteEvent")]
+        [HttpPost]
+        public async Task<ActionResult> DeleteEvent(string eventId, string ownerAadObjectId)
+        {
+            await EventHelper.DeleteEvent(eventId, ownerAadObjectId);
+            return this.View("Events", new List<CelebrationEvent>());
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
             MicrosoftAppId = ConfigurationManager.AppSettings[ConfigurationKeys.MicrosoftAppId];
             DocumentDbUrl = ConfigurationManager.AppSettings[ConfigurationKeys.DocumentDbUrl];
             DocumentDbKey = ConfigurationManager.AppSettings[ConfigurationKeys.DocumentDbKey];
+            TimeToPostCelebration = ConfigurationManager.AppSettings[ConfigurationKeys.TimeToPostCelebration];
         }
 
         /// <summary>
@@ -41,5 +42,10 @@ namespace Microsoft.Teams.Celebration.App.Helpers
         /// Gets or sets Document Db Key.
         /// </summary>
         public static string DocumentDbKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets time to post the celebration in team.
+        /// </summary>
+        public static string TimeToPostCelebration { get; set; }
     }
 }

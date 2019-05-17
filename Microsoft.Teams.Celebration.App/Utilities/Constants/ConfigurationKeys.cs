@@ -33,5 +33,10 @@ namespace Microsoft.Teams.Celebration.App
         /// Document Db Key.
         /// </summary>
         public const string DocumentDbKey = "DocumentDbKey";
+
+        /// <summary>
+        /// Key that stores the timespan, to post the celebration in team.
+        /// </summary>
+        public const string TimeToPostCelebration = "TimeToPostCelebration";
     }
 }

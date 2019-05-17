@@ -1,9 +1,148 @@
-﻿
+﻿@using Microsoft.Teams.Celebration.App.Models;
+@using Microsoft.Teams.Celebration.App.Helpers;
+
 @{
     Layout = null;
 }
-@{
-    ViewBag.Title = "ManageEvents";
-}
-<div>You can manage your events from here</div>
 
+@model ManageEventModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*render css*@
+    @Styles.Render("~/Content/bootstrap4.min.css")
+    @Styles.Render("~/Content/fontawesome/font-awesome.min.css")
+    @Styles.Render("~/Content/tabStyles.css")
+
+    @*render scripts*@
+    @Scripts.Render("~/Scripts/jquery-3.4.0.min.js")
+    @Scripts.Render("~/Scripts/microsoftTeams-1.4.1.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-4.3.1.min.js")
+
+    @*render local js*@
+    @Scripts.Render("~/Scripts/events.js")
+
+
+    <title>ManageEvents</title>
+</head>
+<body>
+
+    <form id="ManageEvents" onSubmit="return submitForm();">
+        <div class="manage-event-outer-div">
+            <div id="celebrationImageCarousael" class="carousel slide manage-event-celebration-image-carousel" 
+                 data-ride="carousel" data-interval="false">
+                <!-- slideshow -->
+                <div class="carousel-inner">
+                    @for (var i = 0; i < Common.GetCountOfFilesInDirectory(Server.MapPath("~/Content/Images/Carousel")); i++)
+                    {
+                        <div class="carousel-item">
+                            <img src='../../Content/Images/Carousel/Celebrations-bot-image-@i-.png'>
+                        </div>
+                    }
+                </div>
+
+                <!-- Left and right controls -->
+                <div href="#celebrationImageCarousal" class="chevrons-icon fa fa-angle-left" data-slide="prev"> </div>
+                <div href="#celebrationImageCarousal" class="chevrons-icon fa fa-angle-right" data-slide="next"></div>
+            </div>
+
+            <div class="manage-event-content">
+                <div>
+                    <div id="divEventType">
+                        <div class="manage-event-field-name">
+                            Event type
+                        </div>
+                        <div class="select-wrapper">
+                            <select id="eventType">
+                                <option value="0"> Others</option>
+                                <option value="1"> Birthday</option>
+                                <option value="2"> Anniversary</option>
+                            </select>
+                       </div>
+                    </div>
+
+                    <div id="divEventDate">
+                        <div class="manage-event-field-name">
+                            Date
+                        </div>
+                        <div>
+                            <input id="eventDate" type="date" required="required"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divEventTitle">
+                    <div class="manage-event-field-name">
+                        Event title
+                    </div>
+                    <div>
+                        <input type="text" id="title" placeholder="title" required="required" />
+                    </div>
+                </div>
+
+                <div id="divEventHeader">
+                    <div class="manage-event-field-name">
+                        Header
+                    </div>
+                    <div>
+                        <input type="text" id="header" placeholder="header" required="required"/>
+                    </div>
+                </div>
+
+                <div id="divEventMessage">
+                    <div class="manage-event-field-name">
+                        Message
+                    </div>
+                    <div>
+                        <input type="text" id="message"  placeholder="message" required="required"/>
+                    </div>
+                </div>
+
+                <div id="divChannels">
+                    <div class="manage-event-field-name">
+                        Post this celebration in
+                    </div>
+                    <div class="select-wrapper">
+                        <select id="eventTeam" >
+                            @foreach (var team in Model.TeamDetails)
+                            {
+                                <option value="@team.Id"> @team.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div id="divTimeZones">
+                    <div>
+                        <div class="manage-event-field-name">
+                            Celebration will post to team at
+                        </div>
+                        <div class="select-wrapper">
+                            <span>10:00 am</span>
+                            <select id="timezonelist" class="timezone-dropdown" >
+                                @foreach (var timeZone in Model.TimeZoneList)
+                                {
+                                    <option value="@timeZone.TimeZoneId"> @timeZone.TimeZoneDisplayName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="manage-event-buttons-div">
+            <input class="button button-primary" type="submit" value="Save" />
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+             $('.carousel-item').first().addClass('active');
+        });
+    </script>
+</body>
+</html>

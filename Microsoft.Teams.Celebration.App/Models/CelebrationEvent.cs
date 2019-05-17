@@ -15,21 +15,7 @@ namespace Microsoft.Teams.Celebration.App.Models
     /// </summary>
     public class CelebrationEvent : Document
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CelebrationEvent"/> class.
-        /// </summary>
-        public CelebrationEvent()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-
-        /// <summary>
-        /// Gets or sets event id that uniquely identifies the event.
-        /// </summary>
-        [JsonProperty("id")]
-        public override string Id { get; set; }
-
-        /// <summary>
+         /// <summary>
         /// Gets or sets type of event. Birthday/Anniversary/others.
         /// </summary>
         [JsonProperty("type")]
@@ -78,7 +64,7 @@ namespace Microsoft.Teams.Celebration.App.Models
         public string OwnerAadObjectId { get; set; }
 
         /// <summary>
-        /// Gets or sets image Url for event.
+        /// Gets or sets image URL for event.
         /// </summary>
         [JsonProperty("imageURL")]
         public string ImageURL { get; set; }

@@ -150,7 +150,7 @@ input::placeholder {
     margin-top:3rem;
 }
 
-.manage-event-celebration-image-carousal {
+.manage-event-celebration-image-carousel {
     width: 99.9%;
 }
 
@@ -186,7 +186,7 @@ input::placeholder {
     opacity: 0.60;
 }
 
-.manage-event-celebration-image-carousal .carousel-item > img {
+.manage-event-celebration-image-carousel .carousel-item > img {
     height: 28.6rem;
     width: 100%;
 }

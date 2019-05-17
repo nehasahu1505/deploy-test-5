@@ -118,53 +118,49 @@
         </div>
     }
 
-    <script>
-        var microsoftTeams;
+        <script>
+var microsoftTeams;
 
-        microsoftTeams.initialize();
+microsoftTeams.initialize();
 
-        submitHandler = (err, result) => {
-            if (result) {
-                let requestUrl = (result["id"]) ? "/Tabs/UpdateEvent" : "/Tabs/SaveEvent";
+submitHandler = (err, result) => {
+	if (result) {
+		let requestUrl = (result["id"]) ? "/Tabs/UpdateEvent" : "/Tabs/SaveEvent";
 
-                $.ajax({
-                    url: requestUrl,
-                    type: "Post" ,
-                    data: JSON.stringify(result),
-                    dataType: "text",
-                    contentType: "application/json; charset=utf-8",
-                    success: function () {
-                       $("#eventList").load("/Tabs/Events?userObjectId=" + result["OwnerAadObjectId"]);
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        //TODO: Handle error.
-                    }
-                });
-            }
-        };
+		$.ajax({
+			url: requestUrl,
+			type: "Post",
+			data: JSON.stringify(result),
+			dataType: "text",
+			contentType: "application/json; charset=utf-8",
+			success: function () {
+				$("#eventList").load("/Tabs/Events?userObjectId=" + result["OwnerAadObjectId"]);
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				//TODO: Handle error.
+			}
+		});
+	}
+};
 
-        function newEventButtonClick() {
-            openTaskModule();
-         }
+function newEventButtonClick() {
+	openTaskModule();
+}
 
-        function newEventTileClick() {
-           openTaskModule();
-         }
+function newEventTileClick() {
+	openTaskModule();
+}
 
-        function openTaskModule() {
-           let taskInfo = {
-            title: "Manage Events",
-            height: "800px", // 770px
-            width: "600px",
-            url: null,
-            card: null,
-            fallbackUrl: null,
-            completionBotId: null,
-            };
-            taskInfo.url = "@(ApplicationSettings.BaseUrl)" + "/Tabs/ManageEvents";
-            taskInfo.fallbackUrl = taskInfo.url;
-            microsoftTeams.tasks.startTask(taskInfo, submitHandler);
-        }
-    </script>
+function openTaskModule() {
+	let taskInfo = {
+		title: "Manage Events",
+		height: "800px", // 770px
+		width: "600px",
+		url: "@(ApplicationSettings.BaseUrl)" + "/Tabs/ManageEvents",
+	};
+	taskInfo.fallbackUrl = taskInfo.url;
+	microsoftTeams.tasks.startTask(taskInfo, submitHandler);
+}
+</script>
 </body>
 </html>

@@ -4,17 +4,18 @@
 
 namespace Microsoft.Teams.Celebration.App.Models
 {
+    using Microsoft.Azure.Documents;
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Store the teams metadata.
+    /// Store the teams meta data.
     /// </summary>
-    public class Team
+    public class Team : Document
     {
         /// <summary>
-        /// Gets or sets team's Id.
+        /// Gets or sets team name.
         /// </summary>
-        [JsonProperty("id")]
-        public string Id { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

@@ -10,14 +10,29 @@ namespace Microsoft.Teams.Celebration.App
     public static class Constant
     {
         /// <summary>
-        /// Cosmos DB name to store the celebration bot data.
+        /// Cosmos DB id to store the celebration bot data.
         /// </summary>
-        public const string CelebrationBotDb = "celebrationbotdb";
+        public const string DatabaseId = "celebrationbotdb";
 
         /// <summary>
-        /// Collection to store user events.
+        /// Document db collection id to store user events.
         /// </summary>
-        public const string CelebrationBotEventCollection = "Events";
+        public const string EventsCollectionId = "Events";
+
+        /// <summary>
+        /// Document db collection Id to store Team details.
+        /// </summary>
+        public const string TeamsCollectionId = "Teams";
+
+        /// <summary>
+        /// Document db collection id to store User details.
+        /// </summary>
+        public const string UsersCollectionId = "Users";
+
+        /// <summary>
+        /// Documnet db collection id to store UserTeamMembership.
+        /// </summary>
+        public const string UserTeamMembershipCollectionId = "UserTeamMembership";
 
         /// <summary>
         /// Default locale for bot.

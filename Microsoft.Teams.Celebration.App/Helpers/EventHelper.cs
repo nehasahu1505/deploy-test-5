@@ -106,7 +106,7 @@ namespace Microsoft.Teams.Celebration.App.Helpers
 
         private static void InitializeDocumentCollectionUri()
         {
-            documentCollectionUri = UriFactory.CreateDocumentCollectionUri(Constant.CelebrationBotDb, Constant.CelebrationBotEventCollection);
+            documentCollectionUri = UriFactory.CreateDocumentCollectionUri(Constant.DatabaseId, Constant.EventsCollectionId);
         }
     }
 }

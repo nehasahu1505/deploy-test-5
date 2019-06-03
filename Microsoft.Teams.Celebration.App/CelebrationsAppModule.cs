@@ -6,12 +6,16 @@ namespace Microsoft.Teams.Celebration.App
 {
     using System;
     using Autofac;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Builder.Dialogs.Internals;
     using Microsoft.Bot.Builder.Internals.Fibers;
     using Microsoft.Bot.Connector;
+    using Microsoft.Teams.Apps.Common;
     using Microsoft.Teams.Apps.Common.Configuration;
     using Microsoft.Teams.Apps.Common.Logging;
+    using Microsoft.Teams.Celebration.App.Helpers;
 
     /// <summary>
     /// Autofac Module
@@ -28,6 +32,13 @@ namespace Microsoft.Teams.Celebration.App
                 .Keyed<IConfigProvider>(FiberModule.Key_DoNotSerialize)
                 .AsImplementedInterfaces()
                 .SingleInstance();
+
+            builder.Register(c =>
+            {
+                return new TelemetryClient(new TelemetryConfiguration(configProvider.GetSetting(CommonConfig.ApplicationInsightsInstrumentationKey)));
+            }).SingleInstance();
+
+            builder.RegisterType<UserManagementHelper>().SingleInstance();
 
             var appInsightsLogProvider = new AppInsightsLogProvider(configProvider);
             builder.Register(c => appInsightsLogProvider)

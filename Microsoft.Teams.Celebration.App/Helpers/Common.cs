@@ -15,6 +15,15 @@ namespace Microsoft.Teams.Celebration.App.Helpers
     public static class Common
     {
         /// <summary>
+        /// Construct the teams botId.
+        /// </summary>
+        /// <returns>botId with 28:.</returns>
+        public static string GetTeamsBotId()
+        {
+            return "28:" + ApplicationSettings.MicrosoftAppId;
+        }
+
+        /// <summary>
         /// Count no. of files in a directory.
         /// </summary>
         /// <param name="directoryPath">directory path.</param>

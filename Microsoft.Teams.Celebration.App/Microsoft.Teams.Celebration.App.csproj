@@ -289,10 +289,14 @@
     <Compile Include="Helpers\ApplicationSettings.cs" />
     <Compile Include="Helpers\Common.cs" />
     <Compile Include="Helpers\EventHelper.cs" />
+    <Compile Include="Helpers\UserManagementHelper.cs" />
     <Compile Include="Models\CelebrationEvent.cs" />
+    <Compile Include="Models\Enums\BotScope.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
     <Compile Include="Models\ManageEventModel.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserTeamMembership.cs" />
     <Compile Include="Models\TimeZoneDisplayInfo.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>

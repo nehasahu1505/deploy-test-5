@@ -291,8 +291,14 @@
     <Compile Include="Helpers\EventHelper.cs" />
     <Compile Include="Helpers\UserManagementHelper.cs" />
     <Compile Include="Models\CelebrationEvent.cs" />
-    <Compile Include="Models\Enums\BotScope.cs" />
+    <Compile Include="Models\Enums\EventStatus.cs" />
     <Compile Include="Models\Enums\EventTypes.cs" />
+    <Compile Include="Models\Enums\MessageType.cs" />
+    <Compile Include="Models\EventMessage.cs" />
+    <Compile Include="Models\EventMessageActivity.cs" />
+    <Compile Include="Models\EventOccurrence.cs" />
+    <Compile Include="Models\MessageSendResult.cs" />
+    <Compile Include="Models\Enums\BotScope.cs" />
     <Compile Include="Models\ManageEventModel.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\User.cs" />

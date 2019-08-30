@@ -1,0 +1,367 @@
+﻿@using Microsoft.Teams.Apps.Celebration.Models;
+@using Microsoft.Teams.Apps.Celebration.Helpers;
+
+@{
+    Layout = null;
+}
+
+@model ManageEventModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*render css*@
+    @Styles.Render("~/Content/bootstrap4.min.css")
+    @Styles.Render("~/Content/fontawesome/font-awesome.min.css")
+    @Styles.Render("~/Content/tabStyles.css")
+    @Styles.Render("~/Content/styles.css")
+    @Styles.Render("~/Content/bootstrap-multiselect.css")
+    @Styles.Render("~/Content/spinner.css")
+
+    @Styles.Render("~/Content/datepicker.css")
+    @Styles.Render("~/Content/datepicker-custom-theme.css")
+    @Styles.Render("~/Content/button-themes.css")
+
+    @*render scripts*@
+    @Scripts.Render("~/Scripts/jquery-3.4.0.min.js")
+    @Scripts.Render("~/Scripts/jquery.slimscroll.min.js")
+    @Scripts.Render("~/Scripts/microsoftTeams-1.4.1.min.js")
+    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-4.3.1.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-multiselect.js")
+
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+
+    @*render local js*@
+    @Scripts.Render("~/Scripts/events.js")
+    @Scripts.Render("~/Scripts/theme.js")
+    @Scripts.Render("~/Scripts/custom-multiselect.js")
+
+
+    <title>ManageEvents</title>
+    <script type="text/javascript">
+        var eventId = "";
+        $(document).ready(function () {
+            $('#eventDate').datepicker({
+                autoclose: true
+            }).on('changeDate', function (ev) {
+                if (ev.viewMode === 'days') {
+                    $(this).datepicker('hide');
+                    handleSaveButtonVisibility();
+                }
+                }).click(function () {
+                    hideAlldropdowns();
+                    setTimeout(function () {
+                        var datePicker = $(".datepicker.dropdown-menu");
+                        $("#eventDate").after(datePicker);
+                    }, 0);
+                });
+
+            let params = getQueryParameters("&");
+            setTheme(params["theme"], "manageEventsView");
+
+            $('input[type="text"]').keyup(function () {
+                handleSaveButtonVisibility();
+            });
+            $('#eventDate').change(function () {
+                handleSaveButtonVisibility();
+            });
+            $('#eventType').change(function (event) {
+                eventTypeChangeHandler();
+            });
+
+            $('.scrollbar-dynamic').slimScroll({
+                height: '56.2rem'
+            });
+            $("#eventTeam").addFancyScrollbar({
+                listMinHeight: '40',
+                listMaxHeight: '188',
+                offset:'10',
+            });
+
+            setTimeZoneDropDownWidth();
+
+            $('#timezonelist').addFancyScrollbar({
+                height:'300',
+            })
+
+            $(window).keyup(function (e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if (code == 9) {
+                    addClassonElementByTabFocus($("#btnSave:focus"));
+                    addClassonElementByTabFocus($("#btnDelete:focus"));
+                    addClassonElementByTabFocus($("#btnCancel:focus"));
+                }
+            });
+
+
+        });
+
+        function addClassonElementByTabFocus(selector) {
+            if (selector.length) {
+                selector.addClass("keyboard-mode");
+            } else {
+                selector.removeClass("keyboard-mode");
+            }
+        }
+
+        $(document).click(function () {
+            hideAlldropdowns();
+        });
+
+
+        function hideAlldropdowns() {
+            $(".dropdown-menu.show").removeClass("show").parent(".slimScrollDiv").removeClass("show").addClass("hide");
+        }
+
+        function setTimeZoneDropDownWidth() {
+            var containerWidth = $(".manage-event-content").width();
+            var timeSpanWidth = $("#time").width();
+            var offset = 4;
+            $("#divTimeZonedropDown").width(containerWidth - timeSpanWidth - offset);
+        }
+        function handleSaveButtonVisibility() {
+            if ($("#title").val() != '' && $("#eventDate").val() != '' && $("#eventType").val() != '') {
+                $('#btnSave').prop('disabled', false);
+            } else {
+                $('#btnSave"]').prop('disabled', true);
+            }
+        }
+        function dismissErrorMessage(){
+            $("#errorAlert").removeClass('show').addClass('hide');
+        }
+        function setDefaultValue() {
+            $("input:text,form").attr("autocomplete", "off");
+            $('.carousel-item').first().addClass('active');
+            $('#eventDate').val(new Date().toISOString().substring(0, 10));
+            eventTypeChangeHandler();
+            setEventDetails();
+            if (eventId) {
+                $("#btnDelete").show();
+                $('#btnCancel').hide();
+            } else {
+                $("#btnDelete").hide();
+                $('#btnCancel').show();
+            }
+         }
+        function eventTypeChangeHandler() {
+            var evetTypeValue = $('#eventType option:selected').val();
+            if (evetTypeValue === "1") {
+                $('#title').val('Birthday');
+                $('#message').val('Wishing you the best on your special day!');
+            }
+            else if (evetTypeValue === "2") {
+                $('#title').val('Anniversary');
+                $('#message').val('Wishing you the best on your special day!');
+            }
+            else {
+                $('#title').val('');
+                $('#message').val('');
+            }
+        }
+        function setEventDetails() {
+           @if(Model.CelebrationEvent != null)
+           {
+              @: eventId = "@Model.CelebrationEvent.Id";
+              @: $("#eventType option:contains(" + '@Model.CelebrationEvent.Type.ToString()' + ")").attr('selected', 'selected');
+              @: $('#message').val($('<div>').html("@Model.CelebrationEvent.Message").text());
+              @: $('#title').val($('<div>').html("@Model.CelebrationEvent.Title").text());
+              @:$('#eventDate').val("@Model.CelebrationEvent.Date.ToString("MM'/'dd'/'yyyy")");
+               // Remove active event image show the saved event image
+              @: $.each($(".carousel-item.active"), function () {
+              @: $(this).removeClass('active')
+              @: });
+               // Set event image.
+              @: var url = "@Model.CelebrationEvent.ImageURL";
+              @: $(".carousel-item").find('img[src="' + url + '"]').parent().addClass('active')
+             // Set selected teams
+              @: var teamIds = [];
+               if (Model.CelebrationEvent.Teams != null)
+               {
+                    foreach(var team in Model.CelebrationEvent.Teams)
+                    {
+                       @: teamIds.push("@team.Id");
+                    }
+                @: $("#eventTeam").val(teamIds);
+               }
+               // Set selected TimeZone
+             @:$('#timezonelist').val("@Model.CelebrationEvent.TimeZoneId");
+           }
+
+            $('#eventTeam').customMultiselect({
+                buttonWidth: '100%',
+                maxHeight: 188,
+                noneSelectedText: 'Which teams would you like to celebrate with?',
+                optionsSelectedText: '',
+            })
+
+            $('#eventType').customMultiselect({
+                buttonWidth: '100%',
+                maxHeight: 138,
+                position: 'top',
+            })
+            $('#timezonelist').customMultiselect({
+                buttonWidth: '100%',
+                maxHeight: 400,
+            })
+            handleSaveButtonVisibility();
+        }
+    </script>
+</head>
+<body id="manageEventsView">
+    <form id="ManageEvents">
+        <div id="loader" style="display: none;" class="loading manage-event-loader">
+            @Html.Partial("~/Views/Shared/_Spinner.cshtml")
+        </div>
+
+        <div id="manage-event-body" data-url='@Url.Action("ManageEventData")'>
+            @if (ViewBag.EmptyView == false)
+            {
+                <div class="manage-event-outer-div scrollbar-dynamic">
+                    <div class="manage-event-inner-div">
+                        <!-- Error Alert -->
+                        <div id="errorAlert" class="alert alert-danger alert-dismissible fade hide manage-event-error">
+                            <strong>Error!</strong> <span id="errorMessage"></span>
+                            <button type="button" class="close" onclick="dismissErrorMessage();">&times;</button>
+                        </div>
+
+                        <div class="manage-event-content">
+                            <div id="divEventTitle">
+                                <div class="manage-event-field-name">
+                                    Event title
+                                </div>
+                                <div>
+                                    <input type="text" class="event-title" id="title" placeholder="title" required="required" />
+                                </div>
+                            </div>
+                            <div id="celebrationImageCarousel" class="carousel slide manage-event-celebration-image-carousel"
+                                 data-ride="carousel" data-interval="false">
+                                <!-- slideshow -->
+                                <div class="carousel-inner">
+                                    @for (var i = 0; i < Common.GetCountOfFilesInDirectory(Server.MapPath("~/Content/Images/Carousel")); i++)
+                                    {
+                                        <div class="carousel-item">
+                                            <img src='../../Content/Images/Carousel/Celebrations-bot-image-@i-.png'>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Left and right controls -->
+                                <div href="#celebrationImageCarousel" class="chevrons-icon fa fa-angle-left" data-slide="prev"> </div>
+                                <div href="#celebrationImageCarousel" class="chevrons-icon fa fa-angle-right" data-slide="next"></div>
+                            </div>
+
+                            <div id="divEventMessage">
+                                <div class="manage-event-field-name">
+                                    Message
+                                </div>
+                                <div>
+                                    <textarea type="text" id="message" placeholder="message"></textarea>
+                                </div>
+                            </div>
+                            <hr class="hr-tag" />
+                            <div class="group-2">
+                                <div id="divEventType">
+                                    <div class="manage-event-field-name">
+                                        Event type
+                                    </div>
+                                    <div>
+                                        <select id="eventType">
+                                            <option value="0">Others</option>
+                                            <option value="1" selected>Birthday</option>
+                                            <option value="2">Anniversary</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="divEventDate">
+                                    <div class="manage-event-field-name">
+                                        <span>
+                                            Date
+                                        </span>
+                                       <span id="invalidDate" class="error-message float-right hide">
+                                           Please select a date
+                                       </span>
+                                    </div>
+                                    <div class="event-date-wrapper">
+
+                                        <input type="text" required="required" placeholder="click here to select date" id="eventDate">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="divTeams">
+                                <div class="manage-event-field-name">
+                                    Share this celebration with
+                                </div>
+                                <div id="divMultiSelectTeam">
+                                    <select id="eventTeam" multiple>
+                                        @foreach (var team in Model.TeamDetails)
+                                        {
+                                            <option value="@team.Id" selected>@team.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="divTimeZones">
+                                <div>
+                                    <div class="manage-event-field-name">
+                                        Celebration but will post to team at
+                                    </div>
+                                    <div>
+                                        <span id="time" class="manage-event-timespan">10:00 am</span>
+                                        <div id="divTimeZonedropDown">
+                                            <select id="timezonelist" class="timezone-dropdown">
+                                                @foreach (var timeZone in Model.TimeZoneList)
+                                                {
+                                                    <option value="@timeZone.TimeZoneId" @(@timeZone.TimeZoneId == Model.SelectedTimeZoneId ? "selected='selected'" : "")>@timeZone.TimeZoneDisplayName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="manage-event-buttons-div">
+                    <div class="manage-event-buttons-inner-div">
+                        <button class="ts-btn ts-btn-secondary button-spacing" id="btnCancel"  onclick="closeTaskModule()">Cancel</button>
+                        <button class="ts-btn ts-btn-secondary button-spacing" id="btnDelete" onclick="return submitForm('Delete');">Delete</button> 
+                        <button class="ts-btn ts-btn-primary" id="btnSave"  onclick="return submitForm('Save');" disabled>Save</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $('#loader').show();
+        var getEventData = function () {
+            let params = getQueryParameters("&");
+            $.ajax({
+                url: $('#manage-event-body').data('url') + "?userObjectId=" + "@ViewBag.userObjectId" + "&eventId=" + "@ViewBag.eventId" + "&clientTimeZone=" + "@ViewBag.clientTimeZone"+ "&theme" + params["theme"],
+                type: 'POST',
+                success: function (result) {
+                    $('#manage-event-body').html(result);
+                    setDefaultValue();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#manage-event-body').html("Some error occurred");
+                },
+                complete: function () {
+                    $("#loader").hide();
+                }
+            });
+        };
+         @if (ViewBag.EmptyView == true)
+         {
+            @: getEventData();
+         }
+    </script>
+</body>
+</html>

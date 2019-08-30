@@ -1,46 +1,33 @@
-# Steps to see the full app in Microsoft Teams
+# Celebration App Template
 
-1. Go to the Azure portal:"https://portal.azure.com" and Create a cosmos document db named "celebrationbotdb" with basic configuration and add a collection named "Events" in Db, that was created in previous step. This collection will store all the celebration events created by users.
+| [Documentation](https://github.com/OfficeDev/microsoft-teams-celebrations-app/wiki) | [Deployment guide](https://github.com/OfficeDev/microsoft-teams-celebrations-app/wiki/Deployment-guide) | [Architecture](https://github.com/OfficeDev/microsoft-teams-celebrations-app/wiki/Solution-overview) |
+| ---- | ---- | ---- |
 
-2. Begin your tunnelling service to get an https endpoint. For this example ngrok is used. Start an ngrok tunnel with the following command (you'll need the https endpoint for the bot registration):<br>
-   
-   ```
-    ngrok http 3978 --host-header=localhost
-   ```
-	
-3. Register a new bot (or update an existing one) with Bot Framework by using the https endpoint started by ngrok and the extension "/api/messages" as the full endpoint for the bot's "Messaging endpoint". e.g. "https://####abcd.ngrok.io/api/messages" - Bot registration is here (open in a new browser tab): https://dev.botframework.com/bots
+It’s very hard for the human being to remember everything accurately and not miss out any chance of celebrating special occasions of their loved ones. So, here comes our cute and intelligent celebration bot which is reliable and accurate and mitigate the human's pain of remembering each other's occasions. Celebration is a Teams bot that helps Team members, celebrate each other’s’ birthdays, anniversaries and other recurring events. This bot remembers special occasions of all the team members and sends a cute message in all the teams, selected at the time of event creation and make the team members feel special on their day.
 
-   > **NOTE**: When you create your bot you will create an App ID and App password - make sure you keep these for later.
+The app provides an easy interface for all the team members to add and view their events and also allows the user to select the teams and time zone to post the event on your special day. This bot is so intelligent that it keeps remember all your choices and sends a preview card 3 days before, to the owner of the event, to make them remind that your special event is coming and also provides options to skip and edit the event. If user do not take any action, then bot assumes that you want to share the events with all selected teams and sends a fun card on the day of the event to see a big smile on everybody's face and rejoice the moment with team.
 
-4. Open the solution file of project, the microsoft-teams-celebrations-app, with visual studio and navigate to web.config file and replace placeholders with values.
-   
-    * domain - set to your ngrok's https endpoint domain
-    * MicrosoftAppId - set to your registered bot's app ID
-    * MicrosoftAppPassword - set to your registered bot's app password    
-    * DocumentDbUrl - get it from cosmos db settings - keys
-    * DocumentDbKey - get it from cosmos db settings - keys
-	
-	   ```
-		"{{domain}}": "#####abc.ngrok.io"
-        "{{MicrosoftAppId}}": "88888888-8888-8888-8888-888888888888"
-        "{{MicrosoftAppPassword}}": "aaaa22229999dddd0000999"
-		"{{DocumentDbUrl}}": "https://#####.documents.azure.com:443/"
-		"{{DocumentDbKey}}": "fd0CmiFn4uxIza89tOUtzO6ocDfza9nOWXmSlY2bbxY3kPiv"
-		```
-5. Once the app is running, a manifest file is needed. 
-   * Open the manifest.json file in any editor and replace the placeholders with values
-    
-       ```
-        "{{domain}}": "#####abc.ngrok.io"
-        "{{MicrosoftAppId}}": "88888888-8888-8888-8888-888888888888"
-		```
-   * Save the file and zip this file and bot icons (located next to it) together to create a manifest.zip file
-		 
-6. Once complete, sideload your zipped manifest to a team as described here (open in a new browser tab): https://msdn.microsoft.com/en-us/microsoft-teams/sideload
 
-7. Congratulations!!! You have just created and sideloaded your celebration bot in Microsoft Teams app! Try adding new events from Events tab to celebrate them with teams.
 
-# Contributing
+## Get started
+
+Begin with the [Solution overview](https://github.com/OfficeDev/microsoft-teams-celebrations-app/wiki/Solution-overview) to read about what the app does and how it works.
+
+When you're ready to try out Celebration, or to use it in your own organization, follow the steps in the [Deployment guide](https://github.com/OfficeDev/microsoft-teams-celebrations-app/wiki/Deployment-guide).
+
+## Feedback
+
+Thoughts? Questions? Ideas? Share them with us on [Teams UserVoice](https://microsoftteams.uservoice.com/forums/555103-public)!
+
+Please report bugs and other code issues [here](https://github.com/OfficeDev/microsoft-teams-company-communicator-app/issues/new).
+
+## Legal notice
+
+Please read the license terms applicable to this [here](https://github.com/OfficeDev/microsoft-teams-celebrations-app/blob/master/LICENSE). In addition to these terms, you agree to the following. You are responsible for complying with all privacy and security regulations, as well as all internal privacy and security policies of your company. You must also include your own privacy statement and terms of use for the app if you choose to deploy or share it broadly. Finally, please note that this application includes functionality to opt-in/opt-out of participation. Usage of this functionality is entirely your choice. Use and management of any personal data collected is your responsibility. Microsoft will not have any access to this data through this app.
+
+Any Microsoft trademarks and logos included in this repository are property of Microsoft and should not be reused, redistributed, modified, repurposed, or otherwise altered or used outside of this repository.
+
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

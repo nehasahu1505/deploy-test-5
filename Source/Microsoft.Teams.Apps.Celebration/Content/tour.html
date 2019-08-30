@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Tour</title>
+    <script src="../Scripts/microsoftTeams-1.4.1.min.js"></script>
+    <script src="../Scripts/jquery-1.11.3.min.js"></script>
+    <script src="../Scripts/theme.js"></script>
+    <link href="button-themes.css" rel="stylesheet" />
+    <link href="styles.css" rel="stylesheet" />
+    <script type="text/javascript">
+        var microsoftTeams;
+        $(document).ready(function () {
+            let queryParameters = getQueryParameters("?");
+            let currentTheme = queryParameters["theme"];
+            microsoftTeams.initialize();
+            setTheme(currentTheme, "themeCSS");
+            microsoftTeams.registerOnThemeChangeHandler(setTheme);
+
+            $(window).keyup(function (e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if (code == 9) {
+                    addClassonElementByTabFocus($("#btnNext:focus"));
+                    addClassonElementByTabFocus($("#btnDone:focus"));
+                    addClassonElementByTabFocus($("#btnBack:focus"));
+                }
+            });
+        });
+
+        function addClassonElementByTabFocus(selector) {
+            if (selector.length) {
+                selector.addClass("keyboard-mode");
+            } else {
+                selector.removeClass("keyboard-mode");
+            }
+        }
+
+
+        function ShowDivOnClick(div1, div2) {
+            d1 = document.getElementById(div1);
+            d2 = document.getElementById(div2);
+
+            d1.style.display = "flex";
+            d2.style.display = "none";
+        }
+
+        function CloseWindow() {
+            microsoftTeams.tasks.submitTask(null);
+        }
+    </script>
+</head>
+<body id="themeCSS" class="theme-default">
+    <div id="introDiv1" class="surface">
+        <div class="imageDiv">
+            <img src="welcome-dialog.png" alt="Welcome image" />
+        </div>
+        <div class="textDiv">
+            <p class="bold-header">Let the team celebrate with you!</p>
+            <p class="regular-content">
+                Tell me when your special occasions are, and what teams you want me to share them with. I’ll post a fun message when the time comes.
+            </p>
+        </div>
+        <div class="footer">
+            <button id="btnNext" class="ts-btn ts-btn-primary" onclick="ShowDivOnClick('introDiv2', 'introDiv1')">
+                Next
+            </button>
+        </div>
+    </div>
+    <div id="introDiv2" class="surface">
+        <div class="imageDiv">
+            <img src="welcome-dialog.png" alt="Welcome image" />
+        </div>
+        <div class="textDiv">
+            <p class="bold-header">Add your events once and rest easy!</p>
+            <p class="regular-content">
+                No need to do it again when you join a new team. If you want me to, I’ll share your events there, too.
+            </p>
+        </div>
+        <div class="footer">
+            <button id="btnDone" class="ts-btn ts-btn-primary"  onclick="CloseWindow()">
+                Done
+            </button>
+            <button id="btnBack" class="ts-btn ts-btn-secondary button-spacing" onclick="ShowDivOnClick('introDiv1', 'introDiv2')">
+                Back
+            </button>
+        </div>
+    </div>
+</body>
+</html>
